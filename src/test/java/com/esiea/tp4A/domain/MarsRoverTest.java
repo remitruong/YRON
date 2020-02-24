@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MarsRoverTest {
+class MarsRoverTest { 
 
     private final MarsRover rover = new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
 
