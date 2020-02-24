@@ -64,4 +64,11 @@ public class MarsRoverImpl implements MarsRover {
                 return Position.of(this.x, this.y, this.direction);
         }
     }
+
+    public Position move(Position initPosition, char[] commands){
+        for (int i = 0; i < commands.length; i++) {
+            initPosition = this.move(Character.toString(i));
+        }
+        return Position.of(this.x, this.y, this.direction);
+    }
 }
