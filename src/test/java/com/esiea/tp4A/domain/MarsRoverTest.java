@@ -60,7 +60,7 @@ class MarsRoverTest {
             .isEqualTo(List.of(0, 0, Direction.NORTH));
     }
 
-    @Test
+    /*@Test
     void move_multiple(){
         Position newPosition = rover.move("f");
 
@@ -76,17 +76,20 @@ class MarsRoverTest {
             .as("Rover position after 2nd f command")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 2, Direction.NORTH));
-    }
+    }*/
 
-    /*@Test
+    @Test
     void move_with_multiple_command(){
-        char[] commands = {'f', 'f', 'l', 'b'};
+        String[] commands = {"f", "f", "l", "b"};
+        Position newPosition = null;
 
-        Position newPosition = rover.move(commands);
+        for(String command : commands) {
+            newPosition = rover.move(command);
+        }
 
         assertThat(newPosition)
             .as("Rover position after f,f,l,b command")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(1, 2, Direction.WEST));
-    }*/
+    }
 }
