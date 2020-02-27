@@ -13,11 +13,19 @@ class MarsRoverTest {
     private final MarsRoverImpl rover3 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.EAST));
     private final MarsRoverImpl rover4 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.WEST));
     
+    @Test
+    void move_forward2() {
+        Position newPosition2 = rover2.move("f");
+
+        assertThat(newPosition2)
+            .as("Rover position after f command")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 0, Direction.SOUTH));
+    }
     
     @Test
     void move_forward() {
         Position newPosition = rover.move("f");
-        Position newPosition2 = rover2.move("f");
         Position newPosition3 = rover3.move("f");
         Position newPosition4 = rover4.move("f");
         
@@ -36,10 +44,6 @@ class MarsRoverTest {
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 1, Direction.WEST));
 
-        assertThat(newPosition2)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 0, Direction.SOUTH));
     }
 
     @Test
