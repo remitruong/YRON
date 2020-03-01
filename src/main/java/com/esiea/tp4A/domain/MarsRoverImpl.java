@@ -19,49 +19,75 @@ public class MarsRoverImpl implements MarsRover {
             case "f":
                 switch (this.direction) {
                     case NORTH:
-                        return Position.of(this.x, this.y + 1, this.direction);
+                        this.y += 1;
+                        break;
                     case SOUTH:
-                        return Position.of(this.x, this.y - 1 , this.direction);
-                    case WEST:
-                        return Position.of(this.x + 1, this.y, this.direction);
+                        this.y -= 1;
+                        break;
                     case EAST:
-                        return Position.of(this.x - 1, this.y, this.direction);
+                        this.x += 1;
+                        break;
+                    case WEST:
+                        this.x -= 1;
+                        break;
                 }
+                break;
             case "b":
                 switch (this.direction) {
                     case NORTH:
-                        return Position.of(this.x, this.y - 1, this.direction);
+                        this.y -= 1;
+                        break;
                     case SOUTH:
-                        return Position.of(this.x, this.y + 1, this.direction);
-                    case WEST:
-                        return Position.of(this.x - 1, this.y, this.direction);
+                        this.y += 1;
+                        break;
                     case EAST:
-                        return Position.of(this.x + 1, this.y, this.direction);
+                        this.x -= 1;
+                        break;
+                    case WEST:
+                        this.x += 1;
+                        break;
                 }
+                break;
             case "l":
                 switch (this.direction) {
                     case NORTH:
-                        return Position.of(this.x, this.y, Direction.WEST);
+                        this.direction = Direction.WEST;
+                        break;
                     case SOUTH:
-                        return Position.of(this.x, this.y, Direction.EAST);
+                        this.direction = Direction.EAST;
+                        break;
                     case WEST:
-                        return Position.of(this.x, this.y, Direction.SOUTH);
+                        this.direction = Direction.SOUTH;
+                        break;
                     case EAST:
-                        return Position.of(this.x, this.y, Direction.NORTH);
+                        this.direction = Direction.NORTH;
+                        break;
                 }
+                break;
             case "r":
                 switch (this.direction) {
                     case NORTH:
-                        return Position.of(this.x, this.y, Direction.EAST);
+                        this.direction = Direction.EAST;
+                        break;
                     case SOUTH:
-                        return Position.of(this.x, this.y, Direction.WEST);
+                        this.direction = Direction.WEST;
+                        break;
                     case WEST:
-                        return Position.of(this.x, this.y, Direction.NORTH);
+                        this.direction = Direction.NORTH;
+                        break;
                     case EAST:
-                        return Position.of(this.x, this.y, Direction.SOUTH);
+                        this.direction = Direction.SOUTH;
+                        break;
                 }
-            default:
-                return Position.of(this.x, this.y, this.direction);
+                break;
         }
+        return Position.of(this.x, this.y, this.direction);
+    }
+
+    public Position move(Character[] commands){
+        for (Character command : commands) {
+            this.move(Character.toString(command));
+        }
+        return Position.of(this.x, this.y, this.direction);
     }
 }
