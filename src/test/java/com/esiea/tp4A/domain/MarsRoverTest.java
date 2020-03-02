@@ -8,14 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MarsRoverTest {
 
-<<<<<<< HEAD
-    private final MarsRover rover = new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
-
-    @Test
-    void move_forward() {
-        Position newPosition = rover.move("f");
-
-=======
     private final MarsRoverImpl rover = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
     private final MarsRoverImpl rover2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.SOUTH));
     private final MarsRoverImpl rover3 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.EAST));
@@ -36,14 +28,11 @@ class MarsRoverTest {
         Position newPosition = rover.move("f");
         Position newPosition3 = rover3.move("f");
         Position newPosition4 = rover4.move("f");
-        
->>>>>>> b374867c9aee6ec96bc6977fe1f427c379ccbf56
+
         assertThat(newPosition)
             .as("Rover position after f command")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 1, Direction.NORTH));
-<<<<<<< HEAD
-=======
 
         assertThat(newPosition3)
             .as("Rover position after f command")
@@ -54,20 +43,11 @@ class MarsRoverTest {
             .as("Rover position after f command")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 1, Direction.WEST));
-
->>>>>>> b374867c9aee6ec96bc6977fe1f427c379ccbf56
     }
 
     @Test
     void move_backward() {
         Position newPosition = rover.move("b");
-<<<<<<< HEAD
-
-        assertThat(newPosition)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, -1, Direction.NORTH));
-=======
         Position newPosition2 = rover2.move("b");
         Position newPosition3 = rover3.move("b");
         Position newPosition4 = rover4.move("b");
@@ -163,6 +143,5 @@ class MarsRoverTest {
             .as("Rover position after f,f,l,b command")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(1, 2, Direction.WEST));
->>>>>>> b374867c9aee6ec96bc6977fe1f427c379ccbf56
     }
 }
