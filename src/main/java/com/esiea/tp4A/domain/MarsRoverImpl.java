@@ -1,19 +1,20 @@
 package com.esiea.tp4A.domain;
 
-public class MarsRoverImpl implements MarsRover {
+import java.util.Set;
 
+public class MarsRoverImpl implements MarsRover {
     private Position position;
-    private PlanetMap map;
+    private PlanetMapImpl map;
 
     public MarsRover initialize(Position position) {
         this.position = position;
+        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize();
         return this;
     }
 
     @Override
     public MarsRover updateMap(PlanetMap map) {
-        this.map = map;
-
+        this.map = (PlanetMapImpl) map;
         return this;
     }
 
@@ -88,9 +89,9 @@ public class MarsRoverImpl implements MarsRover {
                 break;
         }
 
-        // check if next position is not the position of an obstacle, if it's not : move to next
-        if(!this.map.obstaclePositions().contains(pos_next))
-             this.position = pos_next;
+        // check if map not null and if next position is not the position of an obstacle, if it's not : move to next
+        if(this.map != null && !this.map.obstaclePositions().contains(pos_next))
+            this.position = pos_next;
 
         return this.position;
     }
