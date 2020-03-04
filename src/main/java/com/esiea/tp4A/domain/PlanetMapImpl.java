@@ -7,7 +7,7 @@ public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
 
     public PlanetMap initialize() {
-        initialize(new HashSet<Position>() {});
+        initialize(new HashSet<Position>());
         return this;
     }
 
@@ -19,6 +19,10 @@ public class PlanetMapImpl implements PlanetMap {
     @Override
     public Set<Position> obstaclePositions() {
         return obstaclePositions;
+    }
+
+    public boolean contains(Position p) {
+        return this.obstaclePositions.contains(p);
     }
 
     // Add an obstacle, if the obstacle position is already used : return null

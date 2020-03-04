@@ -1,12 +1,10 @@
 package com.esiea.tp4A.domain;
 
-import java.util.Set;
-
 public class MarsRoverImpl implements MarsRover {
-    private Position position;
+    private PositionImpl position;
     private PlanetMapImpl map;
 
-    public MarsRover initialize(Position position) {
+    public MarsRover initialize(PositionImpl position) {
         this.position = position;
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize();
         return this;
@@ -20,70 +18,70 @@ public class MarsRoverImpl implements MarsRover {
 
     @Override
     public Position move(String command) {
-        Position pos_next = this.position;
+        PositionImpl pos_next = this.position;
 
         switch (command) {
             case "f":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
                         break;
                     case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
                         break;
                     case EAST:
-                        pos_next = Position.of(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
                         break;
                     case WEST:
-                        pos_next = Position.of(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
                         break;
                 }
                 break;
             case "b":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
                         break;
                     case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
                         break;
                     case EAST:
-                        pos_next = Position.of(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
                         break;
                     case WEST:
-                        pos_next = Position.of(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new PositionImpl(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
                         break;
                 }
                 break;
             case "l":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.WEST);
                         break;
                     case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.EAST);
                         break;
                     case WEST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
                         break;
                     case EAST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.NORTH);
                         break;
                 }
                 break;
             case "r":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.EAST);
                         break;
                     case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.WEST);
                         break;
                     case WEST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.NORTH);
                         break;
                     case EAST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
                         break;
                 }
                 break;

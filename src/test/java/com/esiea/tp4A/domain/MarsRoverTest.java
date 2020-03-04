@@ -9,10 +9,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MarsRoverTest {
 
-    private final MarsRoverImpl rover = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
-    private final MarsRoverImpl rover2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.SOUTH));
-    private final MarsRoverImpl rover3 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.EAST));
-    private final MarsRoverImpl rover4 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(1, 1, Direction.WEST));
+    private final MarsRoverImpl rover = (MarsRoverImpl) new MarsRoverImpl().initialize(new PositionImpl(0, 0, Direction.NORTH));
+    private final MarsRoverImpl rover2 = (MarsRoverImpl) new MarsRoverImpl().initialize(new PositionImpl(1, 1, Direction.SOUTH));
+    private final MarsRoverImpl rover3 = (MarsRoverImpl) new MarsRoverImpl().initialize(new PositionImpl(1, 1, Direction.EAST));
+    private final MarsRoverImpl rover4 = (MarsRoverImpl) new MarsRoverImpl().initialize(new PositionImpl(1, 1, Direction.WEST));
 
     @Test
     void move_forward2() {
@@ -147,10 +147,9 @@ class MarsRoverTest {
     }
 
     @Test
-    // FIXME : moving on the obstacle
     void add_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(new HashSet<Position>());
-        planetMap.addObstaclePosition(Position.of(0,1,Direction.NORTH));
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(0,1, Direction.NORTH));
 
         rover.updateMap(planetMap);
         Position newPosition = rover.move("f");
