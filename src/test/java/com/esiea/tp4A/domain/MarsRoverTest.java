@@ -145,9 +145,41 @@ class MarsRoverTest {
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(1, 2, Direction.WEST));
     }
+    @Test
+    void move_right_forward(){
+        Character[] commands = {'r', 'f'};
+        Position newPosition = rover.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after r,f command")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 0, Direction.EAST));
+    }
 
     @Test
-    void add_obstacle() {
+    void move_right_backward(){
+        Character[] commands = {'r', 'b'};
+        Position newPosition = rover.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after r,b command")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(-1, 0, Direction.EAST));
+    }
+
+    @Test
+    void move_left_backward(){
+        Character[] commands = {'l', 'b'};
+        Position newPosition = rover.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after l, b command")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 0, Direction.WEST));
+    }
+
+    @Test
+    void add_obstacle_forward() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(new PositionImpl(0,1, Direction.NORTH));
 
@@ -159,4 +191,80 @@ class MarsRoverTest {
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 0, Direction.NORTH));
     }
+
+    @Test
+    void add_obstacle_backward() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(0,-1, Direction.NORTH));
+
+        rover.updateMap(planetMap);
+        Position newPosition = rover.move("b");
+
+        assertThat(newPosition)
+            .as("Rover position after b command with obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 0, Direction.NORTH));
+    }
+
+    //DOESNT WORK BECAUSE OF THE DIRECTION
+    //Test of a move to the left with an obstacle
+    @Test
+    void add_obstacle_left() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(-1,0, Direction.NORTH));
+
+        rover.updateMap(planetMap);
+        Character[] commands = {'l', 'f'};
+        Position newPosition = rover.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after l and f command with obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 0, Direction.WEST));
+    }
+
+    /*@Test
+    void add_obstacle_right() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(1, 0, Direction.NORTH));
+
+        rover.updateMap(planetMap);
+        Position newPosition = rover.move("r");
+
+        assertThat(newPosition)
+            .as("Rover position after r command with obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 0, Direction.NORTH));
+    }
+
+    @Test
+    void move_with_obstacle(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(0,2, Direction.NORTH));
+
+        rover.updateMap(planetMap);
+        Position newPosition = rover.move("f");
+
+        assertThat(newPosition)
+            .as("Rover position after f command without obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 1, Direction.NORTH));
+    }
+
+    @Test
+    void add_obstacle_2(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(new PositionImpl(0,2, Direction.NORTH));
+
+        rover.updateMap(planetMap);
+        Character[] commands = {'f', 'f'};
+        Position newPosition = rover.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after f, f command with obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 1, Direction.NORTH));
+    }*/
+
+
 }
