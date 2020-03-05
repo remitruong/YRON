@@ -18,7 +18,8 @@ public class PlanetMapImpl implements PlanetMap {
 
     @Override
     public Set<Position> obstaclePositions() {
-        return obstaclePositions;
+        // TODO : Renvoyer un ensemble de position correspondant à des obstacles non franchissables
+        return null;
     }
 
     public boolean contains(Position p) {

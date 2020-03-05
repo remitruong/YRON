@@ -88,7 +88,7 @@ public class MarsRoverImpl implements MarsRover {
         }
 
         // check if map not null and if next position is not the position of an obstacle, if it's not : move to next
-        if(this.map != null && !this.map.obstaclePositions().contains(pos_next))
+        if(this.map != null && !this.map.contains(pos_next))
             this.position = pos_next;
 
         return this.position;
