@@ -175,6 +175,84 @@ class MarsRoverTest {
     }
 
     @Test
+    void add_obstacle() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
+        boolean status = planetMap.addObstaclePosition(obstaclePosition);
+
+        assertThat(status)
+            .as("addObstaclePosition status")
+            .isEqualTo(true);
+
+        assertThat(planetMap.obstaclePositions())
+            .as("Add obstacle in map")
+            .contains(obstaclePosition);
+    }
+
+    @Test
+    void add_same_obstacle_twice() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
+        boolean status1 = planetMap.addObstaclePosition(obstaclePosition);
+        boolean status2 = planetMap.addObstaclePosition(obstaclePosition);
+
+        assertThat(status1)
+            .as("First addObstaclePosition status")
+            .isEqualTo(true);
+
+        assertThat(status2)
+            .as("Second addObstaclePosition status")
+            .isEqualTo(false);
+
+        assertThat(planetMap.obstaclePositions())
+            .as("Add obstacle in map")
+            .containsOnlyOnce(obstaclePosition);
+    }
+
+    @Test
+    void remove_obstacle() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+        boolean status = planetMap.removeObstaclePosition(obstaclePosition);
+
+        assertThat(status)
+            .as("removeObstaclePosition status")
+            .isEqualTo(true);
+
+        assertThat(planetMap.obstaclePositions())
+            .as("Remove obstacle in map")
+            .doesNotContain(obstaclePosition);
+    }
+
+    @Test
+    void remove_same_obstacle_twice() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+        boolean status1 = planetMap.removeObstaclePosition(obstaclePosition);
+        boolean status2 = planetMap.removeObstaclePosition(obstaclePosition);
+
+        assertThat(status1)
+            .as("First removeObstaclePosition status")
+            .isEqualTo(true);
+
+        assertThat(status2)
+            .as("Second removeObstaclePosition status")
+            .isEqualTo(false);
+
+        assertThat(planetMap.obstaclePositions())
+            .as("Add obstacle in map")
+            .doesNotContain(obstaclePosition);
+    }
+
+    @Test
     void move_forward_with_obstacle() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(new Position.FixedPosition(0, 1, Direction.NORTH));
