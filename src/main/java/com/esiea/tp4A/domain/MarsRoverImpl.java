@@ -1,10 +1,10 @@
 package com.esiea.tp4A.domain;
 
 public class MarsRoverImpl implements MarsRover {
-    private PositionImpl position;
+    private Position position;
     private PlanetMapImpl map;
 
-    public MarsRover initialize(PositionImpl position) {
+    public MarsRover initialize(Position position) {
         this.position = position;
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize();
         return this;
@@ -18,77 +18,77 @@ public class MarsRoverImpl implements MarsRover {
 
     @Override
     public Position move(String command) {
-        PositionImpl pos_next = this.position;
+        Position pos_next = this.position;
 
         switch (command) {
             case "f":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
                         break;
                     case SOUTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
                         break;
                     case EAST:
-                        pos_next = new PositionImpl(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
                         break;
                     case WEST:
-                        pos_next = new PositionImpl(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
                         break;
                 }
                 break;
             case "b":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY()-1, pos_next.getDirection());
                         break;
                     case SOUTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY()+1, pos_next.getDirection());
                         break;
                     case EAST:
-                        pos_next = new PositionImpl(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX()-1, pos_next.getY(), pos_next.getDirection());
                         break;
                     case WEST:
-                        pos_next = new PositionImpl(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX()+1, pos_next.getY(), pos_next.getDirection());
                         break;
                 }
                 break;
             case "l":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.WEST);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.WEST);
                         break;
                     case SOUTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.EAST);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.EAST);
                         break;
                     case WEST:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
                         break;
                     case EAST:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.NORTH);
                         break;
                 }
                 break;
             case "r":
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.EAST);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.EAST);
                         break;
                     case SOUTH:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.WEST);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.WEST);
                         break;
                     case WEST:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.NORTH);
                         break;
                     case EAST:
-                        pos_next = new PositionImpl(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
                         break;
                 }
                 break;
         }
 
         // check if map not null and if next position is not the position of an obstacle, if it's not : move to next
-        if(this.map != null && !this.map.contains(pos_next))
+        if(this.map != null && !this.map.isPositionOnMap(pos_next))
             this.position = pos_next;
 
         return this.position;
