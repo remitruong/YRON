@@ -12,6 +12,7 @@ class MarsRoverTest {
     private final MarsRoverImpl roverSouth = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.SOUTH));
     private final MarsRoverImpl roverEast = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.EAST));
     private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.WEST));
+    private final MarsRoverImpl roverLaser = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 0, Direction.NORTH));
 
     @Test
     void move_forward() {
@@ -309,4 +310,20 @@ class MarsRoverTest {
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(0, 0, Direction.EAST));
     }
+
+    @Test
+    void tirLaser() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(Position.of(1,3,Direction.NORTH));
+        int portee = 10;
+        roverLaser.fireLaser(portee);
+        Character[] commands = {'f', 'f', 'f', 'f'};
+        Position newPosition = roverLaser.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after r command with obstacle")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 4, Direction.NORTH));
+    }
+
 }
