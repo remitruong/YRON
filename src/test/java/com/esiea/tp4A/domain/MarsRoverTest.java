@@ -314,29 +314,24 @@ class MarsRoverTest {
     @Test
     void tirLaser() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        planetMap.addObstaclePosition(Position.of(1,3,Direction.NORTH));
-        int portee = 10;
-        roverLaser.configureLaserRange(portee);
+
+        Position obstaclePosition = new Position.FixedPosition(1, 3, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+        roverLaser.updateMap(planetMap);
+
+        roverLaser.configureLaserRange(10);
+
         Character[] commands = {'f', 'f', 'f', 'f'};
         Position newPosition = roverLaser.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after r command with obstacle")
+            .as("Rover position after f command with obstacle and laser shot")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(1, 4, Direction.NORTH));
 
-        //LE TEST AVEC NOTCONTAINS
-        /*PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 3, Direction.NORTH);
-        boolean status = planetMap.addObstaclePosition(obstaclePosition);
-
-        int portee = 10;
-        roverLaser.configureLaserRange(portee);
         assertThat(planetMap.obstaclePositions())
-            .as("Remove obstacle in map")
-            .doesNotContain(obstaclePosition);*/
-
+            .as("Remove obstacle in map with laser")
+            .doesNotContain(obstaclePosition);
     }
-
 }
