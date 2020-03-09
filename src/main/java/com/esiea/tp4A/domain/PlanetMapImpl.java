@@ -23,18 +23,19 @@ public class PlanetMapImpl implements PlanetMap {
 
     // Add an obstacle, if the obstacle position is already used : return null
     public boolean addObstaclePosition(Position position) {
-        if(!this.isPositionOnMap(position))
+        if(!this.isPositionOnMap(position)) {
             this.obstaclePositions.add(position);
-        else
-            return false;
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     // Remove an obstacle of the map, and return true if the obstacle is found, false if not
     public boolean removeObstaclePosition(Position position) {
-        if(this.obstaclePositions.contains(position)) {
-            this.obstaclePositions.remove(position);
+        if(this.isPositionOnMap(position)) {
+            this.obstaclePositions.removeIf(pos -> pos.getX() == position.getX() &&
+                pos.getY() == position.getY());
             return true;
         }
 
