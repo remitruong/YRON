@@ -316,7 +316,7 @@ class MarsRoverTest {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(1,3,Direction.NORTH));
         int portee = 10;
-        roverLaser.fireLaser(portee);
+        roverLaser.configureLaserRange(portee);
         Character[] commands = {'f', 'f', 'f', 'f'};
         Position newPosition = roverLaser.move(commands);
 
@@ -324,6 +324,19 @@ class MarsRoverTest {
             .as("Rover position after r command with obstacle")
             .extracting(Position::getX, Position::getY, Position::getDirection)
             .isEqualTo(List.of(1, 4, Direction.NORTH));
+
+        //LE TEST AVEC NOTCONTAINS
+        /*PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 3, Direction.NORTH);
+        boolean status = planetMap.addObstaclePosition(obstaclePosition);
+
+        int portee = 10;
+        roverLaser.configureLaserRange(portee);
+        assertThat(planetMap.obstaclePositions())
+            .as("Remove obstacle in map")
+            .doesNotContain(obstaclePosition);*/
+
     }
 
 }

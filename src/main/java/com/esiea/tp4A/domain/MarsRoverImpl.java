@@ -94,42 +94,40 @@ public class MarsRoverImpl implements MarsRover {
         return this.position;
     }
 
-    public void fireLaser(int portee) {
+    public MarsRoverImpl configureLaserRange(int portee) {
         boolean detruit = false;
         for(int i=0; i<portee; i++){
             if (!detruit) {
                 Position pos_next = this.position;
                 switch (this.position.getDirection()) {
                     case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
                         if (this.map.obstaclePositions().equals(pos_next)) {
                             detruit = map.removeObstaclePosition(pos_next);
                         }
                         break;
                     case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
                         if (this.map.obstaclePositions().equals(pos_next)) {
                             detruit = map.removeObstaclePosition(pos_next);
                         }
                         break;
                     case EAST:
-                        pos_next = Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
                         if (this.map.obstaclePositions().equals(pos_next)) {
                             detruit = map.removeObstaclePosition(pos_next);
                         }
                         break;
                     case WEST:
-                        pos_next = Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
+                        pos_next = new Position.FixedPosition(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
                         if (this.map.obstaclePositions().equals(pos_next)) {
                             detruit = map.removeObstaclePosition(pos_next);
                         }
                         break;
                 }
-            }else{
-                i = portee+1;
             }
         }
-
+        return this;
     }
 
     public Position move(Character[] commands){
