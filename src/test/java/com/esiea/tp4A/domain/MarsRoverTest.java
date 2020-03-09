@@ -313,6 +313,21 @@ class MarsRoverTest {
     }
 
     @Test
+    void tirLaser_without_Obstacle(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        roverLaser.updateMap(planetMap);
+
+        roverLaser.configureLaserRange(10);
+        Character[] commands = {'f', 'f', 'f', 'f'};
+        Position newPosition = roverLaser.move(commands);
+
+        assertThat(newPosition)
+            .as("Rover position after f command without obstacle and laser shot")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 4, Direction.NORTH));
+    }
+
+    @Test
     void tirLaserN() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
 
@@ -348,6 +363,13 @@ class MarsRoverTest {
 
         roverSouth.configureLaserRange(10);
 
+        Position newPosition = roverSouth.move("f");
+
+        assertThat(newPosition)
+            .as("Rover position after f command with obstacle and laser shot")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(1, 0, Direction.SOUTH));
+
         assertThat(planetMap.obstaclePositions())
                 .as("Remove obstacle in map with laser")
                 .doesNotContain(obstaclePosition);
@@ -363,6 +385,13 @@ class MarsRoverTest {
         roverEast.updateMap(planetMap);
 
         roverEast.configureLaserRange(10);
+
+        Position newPosition = roverEast.move("f");
+
+        assertThat(newPosition)
+            .as("Rover position after f command with obstacle and laser shot")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(2, 1, Direction.EAST));
 
         assertThat(planetMap.obstaclePositions())
                 .as("Remove obstacle in map with laser")
@@ -380,8 +409,17 @@ class MarsRoverTest {
 
         roverWest.configureLaserRange(10);
 
+        Position newPosition = roverWest.move("f");
+
+        assertThat(newPosition)
+            .as("Rover position after f command with obstacle and laser shot")
+            .extracting(Position::getX, Position::getY, Position::getDirection)
+            .isEqualTo(List.of(0, 1, Direction.WEST));
+
         assertThat(planetMap.obstaclePositions())
                 .as("Remove obstacle in map with laser")
                 .doesNotContain(obstaclePosition);
     }
+
+
 }
