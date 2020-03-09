@@ -14,6 +14,7 @@ class MarsRoverTest {
     private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.WEST));
     private final MarsRoverImpl roverLaser = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 0, Direction.NORTH));
 
+
     @Test
     void move_forward() {
         Position newPosition = roverNorth.move("f");
@@ -312,11 +313,12 @@ class MarsRoverTest {
     }
 
     @Test
-    void tirLaser() {
+    void tirLaserN() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
 
         Position obstaclePosition = new Position.FixedPosition(1, 3, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
+
 
         roverLaser.updateMap(planetMap);
 
@@ -333,5 +335,53 @@ class MarsRoverTest {
         assertThat(planetMap.obstaclePositions())
             .as("Remove obstacle in map with laser")
             .doesNotContain(obstaclePosition);
+    }
+    @Test
+    void tirLaserS() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.SOUTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+
+        roverSouth.updateMap(planetMap);
+
+        roverSouth.configureLaserRange(10);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Remove obstacle in map with laser")
+                .doesNotContain(obstaclePosition);
+    }
+    @Test
+    void tirLaserE() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(2, 1, Direction.EAST);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+
+        roverEast.updateMap(planetMap);
+
+        roverEast.configureLaserRange(10);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Remove obstacle in map with laser")
+                .doesNotContain(obstaclePosition);
+    }
+    @Test
+    void tirLaserW() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+
+        Position obstaclePosition = new Position.FixedPosition(0, 1, Direction.WEST);
+        planetMap.addObstaclePosition(obstaclePosition);
+
+
+        roverWest.updateMap(planetMap);
+
+        roverWest.configureLaserRange(10);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Remove obstacle in map with laser")
+                .doesNotContain(obstaclePosition);
     }
 }
