@@ -7,7 +7,7 @@ public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
 
     public PlanetMap initialize() {
-        initialize(new HashSet<Position>() {});
+        initialize(new HashSet<Position>());
         return this;
     }
 
@@ -18,30 +18,36 @@ public class PlanetMapImpl implements PlanetMap {
 
     @Override
     public Set<Position> obstaclePositions() {
-        return obstaclePositions;
+        return this.obstaclePositions;
     }
 
     // Add an obstacle, if the obstacle position is already used : return null
-    public Position addObstaclePosition(Position position) {
-        Position result = position;
-
-        if(!this.obstaclePositions.contains(position))
+    public boolean addObstaclePosition(Position position) {
+        if(!this.isPositionOnMap(position))
             this.obstaclePositions.add(position);
         else
-            result = null;
+            return false;
 
-        return result;
+        return true;
     }
 
     // Remove an obstacle of the map, and return true if the obstacle is found, false if not
     public boolean removeObstaclePosition(Position position) {
-        boolean result = false;
-
         if(this.obstaclePositions.contains(position)) {
             this.obstaclePositions.remove(position);
-            result = true;
+            return true;
         }
 
-        return result;
+        return false;
+    }
+
+    boolean isPositionOnMap(Position position) {
+        for(Position p : this.obstaclePositions) {
+            if(p.getX() == position.getX() && p.getY() == position.getY()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
