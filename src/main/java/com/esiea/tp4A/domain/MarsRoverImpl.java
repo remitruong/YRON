@@ -3,6 +3,7 @@ package com.esiea.tp4A.domain;
 public class MarsRoverImpl implements MarsRover {
     private Position position;
     private PlanetMapImpl map;
+    private int laserRange;
 
     public MarsRover initialize(Position position) {
         this.position = position;
@@ -112,19 +113,24 @@ public class MarsRoverImpl implements MarsRover {
     }
 
     public MarsRoverImpl configureLaserRange(int range) {
+        this.laserRange = range;
+        return this;
+    }
+
+    public Position shootLaser() {
+        Position result = null;
+        Position pos_next = this.position;
         int i = 0;
         boolean destroyed = false;
-        Position pos_next = this.position;
 
-        while (i < range && !destroyed) { // As long as the laser has range and we haven't destroyed an obstacle
+        while (i < this.laserRange && !destroyed) { // As long as the laser has range and we haven't destroyed an obstacle
             pos_next = move_switch_front(pos_next); // Next cell on the laser range
 
-            if (this.map.isPositionOnMap(pos_next)) { // Check if next cell on the laser range is a laser and if yes : destroy it
+            if (this.map.isPositionOnMap(pos_next)) // Check if next cell on the laser range is a laser and if yes : destroy it
                 destroyed = map.removeObstaclePosition(pos_next);
-            }
             i++;
         }
 
-        return this;
+        return result;
     }
 }
