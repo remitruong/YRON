@@ -1,9 +1,9 @@
 package com.esiea.tp4A.domain;
 
 public interface Position {
-
     int getX();
     int getY();
+
     Direction getDirection();
 
     static Position of(int x, int y, Direction direction) {
