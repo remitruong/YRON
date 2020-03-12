@@ -20,78 +20,88 @@ public class MarsRoverImpl implements MarsRover {
     public Position move(String command) {
         Position pos_next = this.position;
 
-        switch (command) {
-            case "f":
-                switch (this.position.getDirection()) {
-                    case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
-                        break;
-                    case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
-                        break;
-                    case EAST:
-                        pos_next = Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
-                        break;
-                    case WEST:
-                        pos_next = Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
-                        break;
-                }
-                break;
-            case "b":
-                switch (this.position.getDirection()) {
-                    case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
-                        break;
-                    case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
-                        break;
-                    case EAST:
-                        pos_next = Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
-                        break;
-                    case WEST:
-                        pos_next = Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
-                        break;
-                }
-                break;
-            case "l":
-                switch (this.position.getDirection()) {
-                    case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
-                        break;
-                    case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
-                        break;
-                    case WEST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
-                        break;
-                    case EAST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
-                        break;
-                }
-                break;
-            case "r":
-                switch (this.position.getDirection()) {
-                    case NORTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
-                        break;
-                    case SOUTH:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
-                        break;
-                    case WEST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
-                        break;
-                    case EAST:
-                        pos_next = Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
-                        break;
-                }
-                break;
-        }
+        pos_next = move_switch_main(command, pos_next);
 
         // check if map not null and if next position is not the position of an obstacle, if it's not : move to next
         if (this.map != null && !this.map.isPositionOnMap(pos_next))
             this.position = pos_next;
 
         return this.position;
+    }
+
+    private Position move_switch_main(String command, Position pos_next) {
+        switch (command) {
+            case "f":
+                return move_switch_front(pos_next);
+            case "b":
+                return move_switch_back(pos_next);
+            case "l":
+                return move_switch_left(pos_next);
+            case "r":
+                return move_switch_right(pos_next);
+            default:
+                return pos_next;
+        }
+    }
+
+    private Position move_switch_front(Position pos_next) {
+        switch (this.position.getDirection()) {
+            case NORTH:
+                return Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
+            case SOUTH:
+                return Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
+            case EAST:
+                return Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
+            case WEST:
+                return Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
+            default:
+                return pos_next;
+        }
+    }
+
+    private Position move_switch_back(Position pos_next) {
+        switch (this.position.getDirection()) {
+            case NORTH:
+                return Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
+            case SOUTH:
+                return Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
+            case EAST:
+                return Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
+            case WEST:
+                return Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
+            default:
+                return pos_next;
+        }
+    }
+
+    private Position move_switch_left(Position pos_next) {
+        switch (this.position.getDirection()) {
+            case NORTH:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
+            case SOUTH:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
+            case WEST:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+            case EAST:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+            default:
+                return pos_next;
+        }
+    }
+
+    private Position move_switch_right(Position pos_next) {
+        switch (this.position.getDirection()) {
+            case NORTH:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.EAST);
+            case SOUTH:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.WEST);
+            case WEST:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.NORTH);
+            case EAST:
+                return Position.of(pos_next.getX(), pos_next.getY(), Direction.SOUTH);
+            default:
+                return pos_next;
+        }
     }
 
     public MarsRoverImpl configureLaserRange(int portee) {
