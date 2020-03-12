@@ -29,6 +29,13 @@ public class MarsRoverImpl implements MarsRover {
         return this.position;
     }
 
+    public Position move(Character[] commands) {
+        for (Character command : commands) {
+            this.move(Character.toString(command));
+        }
+        return this.position;
+    }
+
     private Position move_switch_main(String command, Position pos_next) {
         switch (command) {
             case "f":
@@ -104,47 +111,20 @@ public class MarsRoverImpl implements MarsRover {
         }
     }
 
-    public MarsRoverImpl configureLaserRange(int portee) {
-        boolean detruit = false;
+    public MarsRoverImpl configureLaserRange(int range) {
+        int i = 0;
+        boolean destroyed = false;
         Position pos_next = this.position;
 
-        for (int i = 0; i < portee; i++) {
-            if (!detruit) {
-                switch (this.position.getDirection()) {
-                    case NORTH:
-                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
-                        if (this.map.isPositionOnMap(pos_next)) {
-                            detruit = map.removeObstaclePosition(pos_next);
-                        }
-                        break;
-                    case SOUTH:
-                        pos_next = new Position.FixedPosition(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
-                        if (this.map.isPositionOnMap(pos_next)) {
-                            detruit = map.removeObstaclePosition(pos_next);
-                        }
-                        break;
-                    case EAST:
-                        pos_next = new Position.FixedPosition(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
-                        if (this.map.isPositionOnMap(pos_next)) {
-                            detruit = map.removeObstaclePosition(pos_next);
-                        }
-                        break;
-                    case WEST:
-                        pos_next = new Position.FixedPosition(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
-                        if (this.map.isPositionOnMap(pos_next)) {
-                            detruit = map.removeObstaclePosition(pos_next);
-                        }
-                        break;
-                }
-            }
-        }
-        return this;
-    }
+        while (i < range && !destroyed) { // As long as the laser has range and we haven't destroyed an obstacle
+            pos_next = move_switch_front(pos_next); // Next cell on the laser range
 
-    public Position move(Character[] commands) {
-        for (Character command : commands) {
-            this.move(Character.toString(command));
+            if (this.map.isPositionOnMap(pos_next)) { // Check if next cell on the laser range is a laser and if yes : destroy it
+                destroyed = map.removeObstaclePosition(pos_next);
+            }
+            i++;
         }
-        return this.position;
+
+        return this;
     }
 }
