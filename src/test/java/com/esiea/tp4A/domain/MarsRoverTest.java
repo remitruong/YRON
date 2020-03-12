@@ -338,6 +338,7 @@ class MarsRoverTest {
         roverLaser.updateMap(planetMap);
 
         roverLaser.configureLaserRange(10);
+        roverLaser.shootLaser();
         Character[] commands = {'f', 'f', 'f', 'f'};
         Position newPosition = roverLaser.move(commands);
 
@@ -358,6 +359,7 @@ class MarsRoverTest {
         roverLaser.updateMap(planetMap);
 
         roverLaser.configureLaserRange(10);
+        roverLaser.shootLaser();
 
         Character[] commands = {'f', 'f', 'f', 'f'};
         Position newPosition = roverLaser.move(commands);
@@ -383,6 +385,7 @@ class MarsRoverTest {
         roverSouth.updateMap(planetMap);
 
         roverSouth.configureLaserRange(10);
+        roverSouth.shootLaser();
 
         Position newPosition = roverSouth.move("f");
 
@@ -407,6 +410,7 @@ class MarsRoverTest {
         roverEast.updateMap(planetMap);
 
         roverEast.configureLaserRange(10);
+        roverEast.shootLaser();
 
         Position newPosition = roverEast.move("f");
 
@@ -431,6 +435,7 @@ class MarsRoverTest {
         roverWest.updateMap(planetMap);
 
         roverWest.configureLaserRange(10);
+        roverWest.shootLaser();
 
         Position newPosition = roverWest.move("f");
 
