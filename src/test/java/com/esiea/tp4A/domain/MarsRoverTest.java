@@ -105,7 +105,6 @@ class MarsRoverTest {
     @Test
     void rotate_left_north() {
         Position newPosition = roverNorth.move("l");
-
         assertThat(newPosition)
                 .as("North-oriented Rover position after l command")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
@@ -266,7 +265,7 @@ class MarsRoverTest {
     void move_forward_with_obstacle_south() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(0, -1, Direction.NORTH));
-
+      
         roverSouth.updateMap(planetMap);
         Position newPosition = roverSouth.move("f");
 
