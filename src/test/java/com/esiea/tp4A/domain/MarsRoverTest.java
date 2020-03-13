@@ -7,160 +7,208 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MarsRoverTest {
-
-    private final MarsRoverImpl roverNorth = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(0, 0, Direction.NORTH));
-    private final MarsRoverImpl roverSouth = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.SOUTH));
-    private final MarsRoverImpl roverEast = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.EAST));
-    private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 1, Direction.WEST));
-    private final MarsRoverImpl roverLaser = (MarsRoverImpl) new MarsRoverImpl().initialize(new Position.FixedPosition(1, 0, Direction.NORTH));
+    private final MarsRoverImpl roverNorth = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
+    private final MarsRoverImpl roverSouth = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.SOUTH));
+    private final MarsRoverImpl roverEast = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.EAST));
+    private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.WEST));
 
 
+    /*
+     * Move forward
+     */
     @Test
-    void move_forward() {
+    void move_forward_north() {
         Position newPosition = roverNorth.move("f");
-        Position newPosition2 = roverSouth.move("f");
-        Position newPosition3 = roverEast.move("f");
-        Position newPosition4 = roverWest.move("f");
 
         assertThat(newPosition)
-            .as("Test position")
-            .extracting(Position::getDirection)
-            .isEqualTo(Direction.NORTH);
-
-        assertThat(newPosition)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 1, Direction.NORTH));
-
-        assertThat(newPosition2)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 0, Direction.SOUTH));
-
-        assertThat(newPosition2)
-            .as("Test position")
-            .extracting(Position::getDirection)
-            .isEqualTo(Direction.SOUTH);
-
-        assertThat(newPosition3)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(2, 1, Direction.EAST));
-
-        assertThat(newPosition3)
-            .as("Test position")
-            .extracting(Position::getDirection)
-            .isEqualTo(Direction.EAST);
-
-        assertThat(newPosition4)
-            .as("Rover position after f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 1, Direction.WEST));
-
-        assertThat(newPosition4)
-            .as("Test position")
-            .extracting(Position::getDirection)
-            .isEqualTo(Direction.WEST);
+                .as("North-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 1, Direction.NORTH));
     }
 
     @Test
-    void move_backward() {
+    void move_forward_south() {
+        Position newPosition = roverSouth.move("f");
+
+        assertThat(newPosition)
+                .as("South-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, -1, Direction.SOUTH));
+    }
+
+    @Test
+    void move_forward_east() {
+        Position newPosition = roverEast.move("f");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(1, 0, Direction.EAST));
+    }
+
+    @Test
+    void move_forward_west() {
+        Position newPosition = roverWest.move("f");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(-1, 0, Direction.WEST));
+    }
+
+    /*
+     * Move Backward
+     */
+    @Test
+    void move_backward_north() {
         Position newPosition = roverNorth.move("b");
-        Position newPosition2 = roverSouth.move("b");
-        Position newPosition3 = roverEast.move("b");
-        Position newPosition4 = roverWest.move("b");
 
         assertThat(newPosition)
-            .as("Rover position after b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, -1, Direction.NORTH));
-        assertThat(newPosition2)
-            .as("Rover position after b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 2, Direction.SOUTH));
-        assertThat(newPosition3)
-            .as("Rover position after b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 1, Direction.EAST));
-        assertThat(newPosition4)
-            .as("Rover position after b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(2, 1, Direction.WEST));
-
+                .as("North-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, -1, Direction.NORTH));
     }
 
     @Test
-    void move_left() {
+    void move_backward_south() {
+        Position newPosition = roverSouth.move("b");
+
+        assertThat(newPosition)
+                .as("South-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 1, Direction.SOUTH));
+    }
+
+    @Test
+    void move_backward_east() {
+        Position newPosition = roverEast.move("b");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(-1, 0, Direction.EAST));
+    }
+
+    @Test
+    void move_backward_west() {
+        Position newPosition = roverWest.move("b");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(1, 0, Direction.WEST));
+    }
+
+    /*
+     * Rotate to the left
+     */
+    @Test
+    void rotate_left_north() {
         Position newPosition = roverNorth.move("l");
-        Position newPosition2 = roverSouth.move("l");
-        Position newPosition3 = roverEast.move("l");
-        Position newPosition4 = roverWest.move("l");
-
         assertThat(newPosition)
-            .as("Rover position after l command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.WEST));
-
-        assertThat(newPosition2)
-            .as("Rover position after l command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.EAST));
-
-        assertThat(newPosition3)
-            .as("Rover position after l command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.NORTH));
-
-        assertThat(newPosition4)
-            .as("Rover position after l command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.SOUTH));
+                .as("North-oriented Rover position after l command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.WEST));
     }
 
     @Test
-    void move_right() {
-        Position newPosition = roverNorth.move("r");
-        Position newPosition2 = roverSouth.move("r");
-        Position newPosition3 = roverEast.move("r");
-        Position newPosition4 = roverWest.move("r");
+    void rotate_left_south() {
+        Position newPosition = roverSouth.move("l");
 
         assertThat(newPosition)
-            .as("Rover position after r command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.EAST));
-        assertThat(newPosition2)
-            .as("Rover position after r command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.WEST));
-        assertThat(newPosition3)
-            .as("Rover position after r command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.SOUTH));
-        assertThat(newPosition4)
-            .as("Rover position after r command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 1, Direction.NORTH));
+                .as("South-oriented Rover position after l command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.EAST));
     }
 
+    @Test
+    void rotate_left_east() {
+        Position newPosition = roverEast.move("l");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after l command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.NORTH));
+    }
+
+    @Test
+    void rotate_left_west() {
+        Position newPosition = roverWest.move("l");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after l command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.SOUTH));
+    }
+
+    /*
+     * Rotate to the right
+     */
+    @Test
+    void rotate_right_north() {
+        Position newPosition = roverNorth.move("r");
+
+        assertThat(newPosition)
+                .as("North-oriented Rover position after r command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.EAST));
+    }
+
+    @Test
+    void rotate_right_south() {
+        Position newPosition = roverSouth.move("r");
+
+        assertThat(newPosition)
+                .as("South-oriented Rover position after r command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.WEST));
+    }
+
+    @Test
+    void rotate_right_east() {
+        Position newPosition = roverEast.move("r");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after r command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.SOUTH));
+    }
+
+    @Test
+    void rotate_right_west() {
+        Position newPosition = roverWest.move("r");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after r command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.NORTH));
+    }
+
+    /*
+     * Uknown move
+     */
     @Test
     void move_with_unknown_command() {
         Position newPosition = roverNorth.move("g");
 
         assertThat(newPosition)
-            .as("Rover position after g command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.NORTH));
+                .as("Rover position after an unknown command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.NORTH));
     }
 
+    /*
+     * Multiple commands to move
+     */
     @Test
     void move_with_multiple_command() {
-        Character[] commands = {'f', 'f', 'l', 'b'};
+        Character[] commands = {'f', 'r', 'f', 'f', 'l', 'b', 'l'};
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after f,f,l,b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 2, Direction.WEST));
+                .as("Rover position after f,r,f,f,l,b,l commands")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(2, 0, Direction.WEST));
     }
 
     @Test
@@ -169,9 +217,9 @@ class MarsRoverTest {
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after r,f command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 0, Direction.EAST));
+                .as("Rover position after r,f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(1, 0, Direction.EAST));
     }
 
     @Test
@@ -180,266 +228,284 @@ class MarsRoverTest {
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after r,b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(-1, 0, Direction.EAST));
+                .as("Rover position after r,b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(-1, 0, Direction.EAST));
     }
 
     @Test
     void move_left_backward() {
-        Character[] commands = {'l', 'b'};
+        Character[] commands = {'l', 'b', 'r', 'f'};
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after l, b command")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 0, Direction.WEST));
+                .as("Rover position after l, b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(1, 1, Direction.NORTH));
     }
 
+    /*
+     * Obstacles management
+     */
     @Test
-    void add_obstacle() {
+    void move_forward_with_obstacle_north() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
-        boolean status = planetMap.addObstaclePosition(obstaclePosition);
-
-        assertThat(status)
-            .as("addObstaclePosition status")
-            .isEqualTo(true);
-
-        assertThat(planetMap.obstaclePositions())
-            .as("Add obstacle in map")
-            .contains(obstaclePosition);
-    }
-
-    @Test
-    void add_same_obstacle_twice() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
-        boolean status1 = planetMap.addObstaclePosition(obstaclePosition);
-        boolean status2 = planetMap.addObstaclePosition(obstaclePosition);
-
-        assertThat(status1)
-            .as("First addObstaclePosition status")
-            .isEqualTo(true);
-
-        assertThat(status2)
-            .as("Second addObstaclePosition status")
-            .isEqualTo(false);
-
-        assertThat(planetMap.obstaclePositions())
-            .as("Add obstacle in map")
-            .containsOnlyOnce(obstaclePosition);
-    }
-
-    @Test
-    void remove_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
-        planetMap.addObstaclePosition(obstaclePosition);
-
-        boolean status = planetMap.removeObstaclePosition(obstaclePosition);
-
-        assertThat(status)
-            .as("removeObstaclePosition status")
-            .isEqualTo(true);
-
-        assertThat(planetMap.obstaclePositions())
-            .as("Remove obstacle in map")
-            .doesNotContain(obstaclePosition);
-    }
-
-    @Test
-    void remove_same_obstacle_twice() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.NORTH);
-        planetMap.addObstaclePosition(obstaclePosition);
-
-        boolean status1 = planetMap.removeObstaclePosition(obstaclePosition);
-        boolean status2 = planetMap.removeObstaclePosition(obstaclePosition);
-
-        assertThat(status1)
-            .as("First removeObstaclePosition status")
-            .isEqualTo(true);
-
-        assertThat(status2)
-            .as("Second removeObstaclePosition status")
-            .isEqualTo(false);
-
-        assertThat(planetMap.obstaclePositions())
-            .as("Add obstacle in map")
-            .doesNotContain(obstaclePosition);
-    }
-
-    @Test
-    void move_forward_with_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        planetMap.addObstaclePosition(new Position.FixedPosition(0, 1, Direction.NORTH));
+        planetMap.addObstaclePosition(Position.of(0, 1, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
         Position newPosition = roverNorth.move("f");
 
         assertThat(newPosition)
-            .as("Rover position after f command with obstacle")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.NORTH));
+                .as("Rover position after f command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.NORTH));
+    }
+
+    @Test
+    void move_forward_with_obstacle_south() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(Position.of(0, -1, Direction.NORTH));
+      
+        roverSouth.updateMap(planetMap);
+        Position newPosition = roverSouth.move("f");
+
+        assertThat(newPosition)
+                .as("Rover position after f command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.SOUTH));
+    }
+
+    @Test
+    void move_forward_with_obstacle_east() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(Position.of(1, 0, Direction.NORTH));
+
+        roverEast.updateMap(planetMap);
+        Position newPosition = roverEast.move("f");
+
+        assertThat(newPosition)
+                .as("Rover East position after f command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.EAST));
+    }
+    
+    @Test
+    void move_forward_with_obstacle_west() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        planetMap.addObstaclePosition(Position.of(-1, 0, Direction.NORTH));
+
+        roverWest.updateMap(planetMap);
+        Position newPosition = roverWest.move("f");
+
+        assertThat(newPosition)
+                .as("Rover West position after f command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.WEST));
     }
 
     @Test
     void move_backward_with_obstacle() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        planetMap.addObstaclePosition(new Position.FixedPosition(0, -1, Direction.NORTH));
+        planetMap.addObstaclePosition(Position.of(0, -1, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
         Position newPosition = roverNorth.move("b");
 
         assertThat(newPosition)
-            .as("Rover position after b command with obstacle")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.NORTH));
+                .as("Rover position after b command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.NORTH));
     }
 
     @Test
     void move_left_with_obstacle() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        planetMap.addObstaclePosition(new Position.FixedPosition(-1, 0, Direction.NORTH));
+        planetMap.addObstaclePosition(Position.of(-1, 0, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
         Character[] commands = {'l', 'f'};
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after l and f command with obstacle")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.WEST));
+                .as("Rover position after l and f command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.WEST));
     }
 
     @Test
     void move_right_with_obstacle() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        planetMap.addObstaclePosition(new Position.FixedPosition(1, 0, Direction.NORTH));
+        planetMap.addObstaclePosition(Position.of(1, 0, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
         Character[] commands = {'r', 'f'};
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-            .as("Rover position after r command with obstacle")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 0, Direction.EAST));
+                .as("Rover position after r command with obstacle")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 0, Direction.EAST));
     }
-
+    
+    /*
+     * Laser on obstacles
+     */
     @Test
-    void tirLaser_without_Obstacle(){
+    void shoot_north_classic() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-        roverLaser.updateMap(planetMap);
-
-        roverLaser.configureLaserRange(10);
-        Character[] commands = {'f', 'f', 'f', 'f'};
-        Position newPosition = roverLaser.move(commands);
-
-        assertThat(newPosition)
-            .as("Rover position after f command without obstacle and laser shot")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 4, Direction.NORTH));
-    }
-
-    @Test
-    void tirLaserN() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 3, Direction.NORTH);
+        Position obstaclePosition = Position.of(0, 3, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
-
-
-        roverLaser.updateMap(planetMap);
-
-        roverLaser.configureLaserRange(10);
-
-        Character[] commands = {'f', 'f', 'f', 'f'};
-        Position newPosition = roverLaser.move(commands);
-
-        assertThat(newPosition)
-            .as("Rover position after f command with obstacle and laser shot")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 4, Direction.NORTH));
+        roverNorth.updateMap(planetMap);
 
         assertThat(planetMap.obstaclePositions())
-            .as("Remove obstacle in map with laser")
-            .doesNotContain(obstaclePosition);
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
+        roverNorth.configureLaserRange(10);
+        roverNorth.shootLaser();
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if the obstacle is well destroyed")
+                .doesNotContain(obstaclePosition);
     }
+
     @Test
-    void tirLaserS() {
+    void shoot_south_classic() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(1, 0, Direction.SOUTH);
+        Position obstaclePosition = Position.of(0, -3, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
-
-
         roverSouth.updateMap(planetMap);
 
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
         roverSouth.configureLaserRange(10);
-
-        Position newPosition = roverSouth.move("f");
-
-        assertThat(newPosition)
-            .as("Rover position after f command with obstacle and laser shot")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(1, 0, Direction.SOUTH));
+        roverSouth.shootLaser();
 
         assertThat(planetMap.obstaclePositions())
-                .as("Remove obstacle in map with laser")
+                .as("Check if the obstacle is well destroyed")
                 .doesNotContain(obstaclePosition);
     }
+
     @Test
-    void tirLaserE() {
+    void shoot_east_classic() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(2, 1, Direction.EAST);
+        Position obstaclePosition = Position.of(3, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
-
-
         roverEast.updateMap(planetMap);
 
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
         roverEast.configureLaserRange(10);
-
-        Position newPosition = roverEast.move("f");
-
-        assertThat(newPosition)
-            .as("Rover position after f command with obstacle and laser shot")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(2, 1, Direction.EAST));
+        roverEast.shootLaser();
 
         assertThat(planetMap.obstaclePositions())
-                .as("Remove obstacle in map with laser")
+                .as("Check if the obstacle is well destroyed")
                 .doesNotContain(obstaclePosition);
     }
+
     @Test
-    void tirLaserW() {
+    void shoot_west_classic() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
-
-        Position obstaclePosition = new Position.FixedPosition(0, 1, Direction.WEST);
+        Position obstaclePosition = Position.of(-3, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
-
-
         roverWest.updateMap(planetMap);
 
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
         roverWest.configureLaserRange(10);
-
-        Position newPosition = roverWest.move("f");
-
-        assertThat(newPosition)
-            .as("Rover position after f command with obstacle and laser shot")
-            .extracting(Position::getX, Position::getY, Position::getDirection)
-            .isEqualTo(List.of(0, 1, Direction.WEST));
+        roverWest.shootLaser();
 
         assertThat(planetMap.obstaclePositions())
-                .as("Remove obstacle in map with laser")
+                .as("Check if the obstacle is well destroyed")
                 .doesNotContain(obstaclePosition);
     }
 
+    @Test
+    void shoot_obstacle_at_beginning_range() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        Position obstaclePosition = Position.of(0, 1, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+        roverNorth.updateMap(planetMap);
 
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
+        roverNorth.configureLaserRange(10);
+        roverNorth.shootLaser();
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if the obstacle is well destroyed")
+                .doesNotContain(obstaclePosition);
+    }
+
+    @Test
+    void shoot_obstacle_at_end_range() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        Position obstaclePosition = Position.of(0, 10, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
+        roverNorth.updateMap(planetMap);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if obstacle is on map")
+                .contains(obstaclePosition);
+
+        roverNorth.configureLaserRange(10);
+        roverNorth.shootLaser();
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if the obstacle is well destroyed")
+                .doesNotContain(obstaclePosition);
+    }
+
+    @Test
+    void shoot_obstacle_while_double_obstacles() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        Position obstaclePosition1 = Position.of(0, 6, Direction.NORTH);
+        Position obstaclePosition2 = Position.of(0, 7, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition1);
+        planetMap.addObstaclePosition(obstaclePosition2);
+        roverNorth.updateMap(planetMap);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if first obstacle is on map")
+                .contains(obstaclePosition1);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if second obstacle is on map")
+                .contains(obstaclePosition2);
+
+        roverNorth.configureLaserRange(10);
+        roverNorth.shootLaser();
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if the first obstacle is well destroyed")
+                .doesNotContain(obstaclePosition1);
+
+        assertThat(planetMap.obstaclePositions())
+                .as("Check if second obstacle is still on map")
+                .contains(obstaclePosition2);
+    }
+    
+    @Test
+    void tirLaser_without_Obstacle() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        roverNorth.updateMap(planetMap);
+
+        roverNorth.configureLaserRange(10);
+        roverNorth.shootLaser();
+        Character[] commands = {'f', 'f', 'f', 'f'};
+        Position newPosition = roverNorth.move(commands);
+
+        assertThat(newPosition)
+                .as("Rover position after f command without obstacle and laser shot")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 4, Direction.NORTH));
+    }
 }
