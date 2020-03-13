@@ -48,7 +48,7 @@ class MarsRoverTest {
 
     @Test
     void move_forward_west() {
-        Position newPosition = roverEast.move("f");
+        Position newPosition = roverWest.move("f");
 
         assertThat(newPosition)
                 .as("West-oriented Rover position after f command")
@@ -91,7 +91,7 @@ class MarsRoverTest {
 
     @Test
     void move_backward_west() {
-        Position newPosition = roverEast.move("b");
+        Position newPosition = roverWest.move("b");
 
         assertThat(newPosition)
                 .as("West-oriented Rover position after b command")
@@ -134,7 +134,7 @@ class MarsRoverTest {
 
     @Test
     void rotate_left_west() {
-        Position newPosition = roverEast.move("l");
+        Position newPosition = roverWest.move("l");
 
         assertThat(newPosition)
                 .as("West-oriented Rover position after l command")
@@ -177,7 +177,7 @@ class MarsRoverTest {
 
     @Test
     void rotate_right_west() {
-        Position newPosition = roverEast.move("r");
+        Position newPosition = roverWest.move("r");
 
         assertThat(newPosition)
                 .as("West-oriented Rover position after r command")
@@ -203,11 +203,11 @@ class MarsRoverTest {
      */
     @Test
     void move_with_multiple_command() {
-        Character[] commands = {'f', 'r', 'f', 'f', 'l', 'b', 'r'};
+        Character[] commands = {'f', 'r', 'f', 'f', 'l', 'b', 'l'};
         Position newPosition = roverNorth.move(commands);
 
         assertThat(newPosition)
-                .as("Rover position after f,r,f,f,l,b,r commands")
+                .as("Rover position after f,r,f,f,l,b,l commands")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
                 .isEqualTo(List.of(2, 0, Direction.WEST));
     }
@@ -507,6 +507,6 @@ class MarsRoverTest {
         assertThat(newPosition)
                 .as("Rover position after f command without obstacle and laser shot")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
-                .isEqualTo(List.of(1, 4, Direction.NORTH));
+                .isEqualTo(List.of(0, 4, Direction.NORTH));
     }
 }
