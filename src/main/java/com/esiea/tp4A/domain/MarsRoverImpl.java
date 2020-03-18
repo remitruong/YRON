@@ -7,7 +7,7 @@ public class MarsRoverImpl implements MarsRover {
 
     public MarsRover initialize(Position position) {
         this.position = position;
-        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         return this;
     }
 

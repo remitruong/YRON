@@ -5,8 +5,10 @@ import java.util.Set;
 
 public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
+    private int sizeOfTheMap;
 
-    public PlanetMap initialize() {
+    public PlanetMap initialize(int size) {
+        this.sizeOfTheMap = size;
         initialize(new HashSet<Position>());
         return this;
     }
@@ -50,5 +52,14 @@ public class PlanetMapImpl implements PlanetMap {
         }
 
         return false;
+    }
+
+    public int getSizeOfTheMap() {
+        return sizeOfTheMap;
+    }
+
+    boolean isLimitOfMap(Position position){
+        return position.getX() == (getSizeOfTheMap() / 2) || position.getY() == (getSizeOfTheMap() / 2)
+            || position.getX() == -((getSizeOfTheMap() / 2) - 1) || position.getY() == -((getSizeOfTheMap() / 2) - 1);
     }
 }
