@@ -7,9 +7,15 @@ public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
     private int sizeOfTheMap;
 
+    public PlanetMap initialize() {
+        this.sizeOfTheMap = 100;
+        initialize(new HashSet<>());
+        return this;
+    }
+
     public PlanetMap initialize(int size) {
         this.sizeOfTheMap = size;
-        initialize(new HashSet<Position>());
+        initialize(new HashSet<>());
         return this;
     }
 

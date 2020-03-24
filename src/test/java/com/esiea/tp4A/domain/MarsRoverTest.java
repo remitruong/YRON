@@ -249,7 +249,7 @@ class MarsRoverTest {
      */
     @Test
     void move_forward_with_obstacle_north() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(0, 1, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
@@ -263,7 +263,7 @@ class MarsRoverTest {
 
     @Test
     void move_forward_with_obstacle_south() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(0, -1, Direction.NORTH));
       
         roverSouth.updateMap(planetMap);
@@ -277,7 +277,7 @@ class MarsRoverTest {
 
     @Test
     void move_forward_with_obstacle_east() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(1, 0, Direction.NORTH));
 
         roverEast.updateMap(planetMap);
@@ -291,7 +291,7 @@ class MarsRoverTest {
     
     @Test
     void move_forward_with_obstacle_west() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(-1, 0, Direction.NORTH));
 
         roverWest.updateMap(planetMap);
@@ -305,7 +305,7 @@ class MarsRoverTest {
 
     @Test
     void move_backward_with_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(0, -1, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
@@ -319,7 +319,7 @@ class MarsRoverTest {
 
     @Test
     void move_left_with_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(-1, 0, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
@@ -334,7 +334,7 @@ class MarsRoverTest {
 
     @Test
     void move_right_with_obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         planetMap.addObstaclePosition(Position.of(1, 0, Direction.NORTH));
 
         roverNorth.updateMap(planetMap);
@@ -352,7 +352,7 @@ class MarsRoverTest {
      */
     @Test
     void shoot_north_classic() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(0, 3, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverNorth.updateMap(planetMap);
@@ -371,7 +371,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_south_classic() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(0, -3, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverSouth.updateMap(planetMap);
@@ -390,7 +390,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_east_classic() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(3, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverEast.updateMap(planetMap);
@@ -409,7 +409,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_west_classic() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(-3, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverWest.updateMap(planetMap);
@@ -428,7 +428,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_obstacle_at_beginning_range() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(0, 1, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverNorth.updateMap(planetMap);
@@ -447,7 +447,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_obstacle_at_end_range() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition = Position.of(0, 10, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition);
         roverNorth.updateMap(planetMap);
@@ -466,7 +466,7 @@ class MarsRoverTest {
 
     @Test
     void shoot_obstacle_while_double_obstacles() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         Position obstaclePosition1 = Position.of(0, 6, Direction.NORTH);
         Position obstaclePosition2 = Position.of(0, 7, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition1);
@@ -495,7 +495,7 @@ class MarsRoverTest {
     
     @Test
     void tirLaser_without_Obstacle() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
         roverNorth.updateMap(planetMap);
 
         roverNorth.configureLaserRange(10);
