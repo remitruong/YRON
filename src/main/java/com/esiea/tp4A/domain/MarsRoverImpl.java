@@ -3,7 +3,15 @@ package com.esiea.tp4A.domain;
 public class MarsRoverImpl implements MarsRover {
     private Position position;
     private PlanetMapImpl map;
-    private int laserRange;
+    private Integer laserRange;
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Integer getLaserRange() {
+        return laserRange;
+    }
 
     public MarsRover initialize(Position position) {
         this.position = position;
