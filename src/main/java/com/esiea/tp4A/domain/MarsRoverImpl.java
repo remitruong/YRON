@@ -55,13 +55,13 @@ public class MarsRoverImpl implements MarsRover {
     private Position move_switch_front(Position pos_next) {
         switch (this.position.getDirection()) {
             case NORTH:
-                return limitPosition(Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection()));
+                return limitPositionForward(Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection()));
             case SOUTH:
-                return limitPosition(Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection()));
+                return limitPositionForward(Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection()));
             case EAST:
-                return limitPosition(Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection()));
+                return limitPositionForward(Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection()));
             case WEST:
-                return limitPosition(Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection()));
+                return limitPositionForward(Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection()));
             default:
                 return pos_next;
         }
@@ -70,13 +70,13 @@ public class MarsRoverImpl implements MarsRover {
     private Position move_switch_back(Position pos_next) {
         switch (this.position.getDirection()) {
             case NORTH:
-                return Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection());
+                return limitPositionBackward(Position.of(pos_next.getX(), pos_next.getY() - 1, pos_next.getDirection()));
             case SOUTH:
-                return Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection());
+                return limitPositionBackward(Position.of(pos_next.getX(), pos_next.getY() + 1, pos_next.getDirection()));
             case EAST:
-                return Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection());
+                return limitPositionBackward(Position.of(pos_next.getX() - 1, pos_next.getY(), pos_next.getDirection()));
             case WEST:
-                return Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection());
+                return limitPositionBackward(Position.of(pos_next.getX() + 1, pos_next.getY(), pos_next.getDirection()));
             default:
                 return pos_next;
         }
@@ -134,28 +134,56 @@ public class MarsRoverImpl implements MarsRover {
         return result;
     }
 
-    public Position limitPosition(Position nextPosition){
+    public Position limitPositionForward(Position nextPosition){
         int size = map.getSizeOfTheMap();
         switch (nextPosition.getDirection()) {
             case NORTH:
-                if(nextPosition.getY() > size/2 -1){
+                if(nextPosition.getY() > size/2){
                     //Le cas y+1
-                    nextPosition = Position.of(nextPosition.getX(), 0, Direction.NORTH);
+                    nextPosition = Position.of(nextPosition.getX(), -size/2 +1, Direction.NORTH);
                 }
             case SOUTH:
-                if(nextPosition.getY() < 0){
+                if(nextPosition.getY() < -size/2){
                     //Le cas y-1
                     nextPosition = Position.of(nextPosition.getX(), size/2, Direction.SOUTH);
                 }
             case EAST:
-                if(nextPosition.getX() > size/2 -1){
+                if(nextPosition.getX() > size/2){
                     //Le cas x+1
-                    nextPosition = Position.of(0, nextPosition.getY(), Direction.EAST);
+                    nextPosition = Position.of(-size/2 +1, nextPosition.getY(), Direction.EAST);
                 }
             case WEST:
-                if(nextPosition.getX() < 0){
+                if(nextPosition.getX() < -size/2){
                     //Le cas x-1
                     nextPosition = Position.of(size/2, nextPosition.getY(), Direction.WEST);
+                }
+            default:
+                return nextPosition;
+        }
+    }
+
+    public Position limitPositionBackward(Position nextPosition){
+        int size = map.getSizeOfTheMap();
+        switch (nextPosition.getDirection()) {
+            case NORTH:
+                if(nextPosition.getY() < -size/2){
+                    //Le cas y-1
+                    nextPosition = Position.of(nextPosition.getX(), size/2, Direction.NORTH);
+                }
+            case SOUTH:
+                if(nextPosition.getY() > size/2){
+                    //Le cas y+1
+                    nextPosition = Position.of(nextPosition.getX(), -size/2 +1, Direction.SOUTH);
+                }
+            case EAST:
+                if(nextPosition.getX() < -size/2){
+                    //Le cas x-1
+                    nextPosition = Position.of(size/2, nextPosition.getY(), Direction.EAST);
+                }
+            case WEST:
+                if(nextPosition.getX() > size/2){
+                    //Le cas x+1
+                    nextPosition = Position.of(-size/2 +1, nextPosition.getY(), Direction.WEST);
                 }
             default:
                 return nextPosition;

@@ -12,7 +12,7 @@ class MarsRoverTest {
     private final MarsRoverImpl roverEast = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.EAST));
     private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.WEST));
 
-    private final MarsRoverImpl roverNorthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 49, Direction.NORTH));
+    private final MarsRoverImpl roverNorthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 50, Direction.NORTH));
 
     @Test
     void move_forward_north_limit() {
@@ -21,7 +21,7 @@ class MarsRoverTest {
         assertThat(newPosition)
                 .as("North-oriented Rover position after f command")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
-                .isEqualTo(List.of(0, 0, Direction.NORTH));
+                .isEqualTo(List.of(0, -49, Direction.NORTH));
     }
 
     /*
