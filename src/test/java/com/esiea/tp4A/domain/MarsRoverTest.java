@@ -13,7 +13,17 @@ class MarsRoverTest {
     private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.WEST));
 
     private final MarsRoverImpl roverNorthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 50, Direction.NORTH));
+    private final MarsRoverImpl roverSouthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, -49, Direction.SOUTH));
+    private final MarsRoverImpl roverEastLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(50, 0, Direction.EAST));
+    private final MarsRoverImpl roverWestLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(-49, 0, Direction.WEST));
 
+    private final MarsRoverImpl roverNorthLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, -49, Direction.NORTH));
+    private final MarsRoverImpl roverSouthLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 50, Direction.SOUTH));
+    private final MarsRoverImpl roverEastLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(-49, 0, Direction.EAST));
+    private final MarsRoverImpl roverWestLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(50, 0, Direction.WEST));
+
+
+    //Forward limit tests
     @Test
     void move_forward_north_limit() {
         Position newPosition = roverNorthLimit.move("f");
@@ -22,6 +32,78 @@ class MarsRoverTest {
                 .as("North-oriented Rover position after f command")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
                 .isEqualTo(List.of(0, -49, Direction.NORTH));
+    }
+
+    @Test
+    void move_forward_south_limit() {
+        Position newPosition = roverSouthLimit.move("f");
+
+        assertThat(newPosition)
+                .as("South-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 50, Direction.SOUTH));
+    }
+
+    @Test
+    void move_forward_east_limit() {
+        Position newPosition = roverEastLimit.move("f");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(-49, 0, Direction.EAST));
+    }
+
+    @Test
+    void move_forward_west_limit() {
+        Position newPosition = roverWestLimit.move("f");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after f command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(50, 0, Direction.WEST));
+    }
+
+    //Backward limit tests
+
+    @Test
+    void move_backward_north_limit() {
+        Position newPosition = roverNorthLimit2.move("b");
+
+        assertThat(newPosition)
+                .as("North-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, 50, Direction.NORTH));
+    }
+
+    @Test
+    void move_backward_south_limit() {
+        Position newPosition = roverSouthLimit2.move("b");
+
+        assertThat(newPosition)
+                .as("South-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(0, -49, Direction.SOUTH));
+    }
+
+    @Test
+    void move_backward_east_limit() {
+        Position newPosition = roverEastLimit2.move("b");
+
+        assertThat(newPosition)
+                .as("East-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(50, 0, Direction.EAST));
+    }
+
+    @Test
+    void move_backward_west_limit() {
+        Position newPosition = roverWestLimit2.move("b");
+
+        assertThat(newPosition)
+                .as("West-oriented Rover position after b command")
+                .extracting(Position::getX, Position::getY, Position::getDirection)
+                .isEqualTo(List.of(-49, 0, Direction.WEST));
     }
 
     /*

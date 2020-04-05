@@ -143,7 +143,7 @@ public class MarsRoverImpl implements MarsRover {
                     nextPosition = Position.of(nextPosition.getX(), -size/2 +1, Direction.NORTH);
                 }
             case SOUTH:
-                if(nextPosition.getY() < -size/2){
+                if(nextPosition.getY() == -size/2){
                     //Le cas y-1
                     nextPosition = Position.of(nextPosition.getX(), size/2, Direction.SOUTH);
                 }
@@ -153,7 +153,7 @@ public class MarsRoverImpl implements MarsRover {
                     nextPosition = Position.of(-size/2 +1, nextPosition.getY(), Direction.EAST);
                 }
             case WEST:
-                if(nextPosition.getX() < -size/2){
+                if(nextPosition.getX() == -size/2){
                     //Le cas x-1
                     nextPosition = Position.of(size/2, nextPosition.getY(), Direction.WEST);
                 }
@@ -166,7 +166,7 @@ public class MarsRoverImpl implements MarsRover {
         int size = map.getSizeOfTheMap();
         switch (nextPosition.getDirection()) {
             case NORTH:
-                if(nextPosition.getY() < -size/2){
+                if(nextPosition.getY() == -size/2){
                     //Le cas y-1
                     nextPosition = Position.of(nextPosition.getX(), size/2, Direction.NORTH);
                 }
@@ -176,7 +176,7 @@ public class MarsRoverImpl implements MarsRover {
                     nextPosition = Position.of(nextPosition.getX(), -size/2 +1, Direction.SOUTH);
                 }
             case EAST:
-                if(nextPosition.getX() < -size/2){
+                if(nextPosition.getX() == -size/2){
                     //Le cas x-1
                     nextPosition = Position.of(size/2, nextPosition.getY(), Direction.EAST);
                 }
