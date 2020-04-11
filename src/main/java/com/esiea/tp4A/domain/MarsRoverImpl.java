@@ -3,11 +3,11 @@ package com.esiea.tp4A.domain;
 public class MarsRoverImpl implements MarsRover {
     private Position position;
     private PlanetMapImpl map;
+    private final String name;
 
-    public MarsRover initialize(Position position) {
+    public MarsRoverImpl(Position position, String name) {
+        this.name = name;
         this.position = position;
-        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
-        return this;
     }
 
     @Override

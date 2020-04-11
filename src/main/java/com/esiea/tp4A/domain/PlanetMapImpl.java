@@ -6,7 +6,6 @@ import java.util.Set;
 public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
     private int sizeOfTheMap;
-
     private int laserRange;
 
     public PlanetMap initialize() {
@@ -23,13 +22,6 @@ public class PlanetMapImpl implements PlanetMap {
 
     public PlanetMap initialize(Set<Position> positions) {
         this.obstaclePositions = positions;
-        return this;
-    }
-
-    public PlanetMap generateMap(float pourcentageObstable, int range, int size){
-
-        //generatePosition pour le rover et les obstacles
-
         return this;
     }
 
