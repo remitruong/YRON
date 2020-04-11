@@ -7,6 +7,8 @@ public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
     private int sizeOfTheMap;
 
+    private int laserRange;
+
     public PlanetMap initialize() {
         this.sizeOfTheMap = 100;
         initialize(new HashSet<>());
@@ -22,6 +24,21 @@ public class PlanetMapImpl implements PlanetMap {
     public PlanetMap initialize(Set<Position> positions) {
         this.obstaclePositions = positions;
         return this;
+    }
+
+    public PlanetMap generateMap(float pourcentageObstable, int range, int size){
+
+        //generatePosition pour le rover et les obstacles
+
+        return this;
+    }
+
+    public int getLaserRange() {
+        return laserRange;
+    }
+
+    public void setLaserRange(int laserRange) {
+        this.laserRange = laserRange;
     }
 
     @Override
@@ -56,7 +73,6 @@ public class PlanetMapImpl implements PlanetMap {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -68,4 +84,5 @@ public class PlanetMapImpl implements PlanetMap {
         return position.getX() == (getSizeOfTheMap() / 2) || position.getY() == (getSizeOfTheMap() / 2)
             || position.getX() == -((getSizeOfTheMap() / 2) - 1) || position.getY() == -((getSizeOfTheMap() / 2) - 1);
     }
+
 }
