@@ -1,6 +1,7 @@
 package com.esiea.tp4A.domain;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class PlanetMapImpl implements PlanetMap {
@@ -25,12 +26,12 @@ public class PlanetMapImpl implements PlanetMap {
         return this;
     }
 
-    public void GenerateObstacle (int size){
+    public void generateObstacle (int size){
         int nbObstacle = (int) (size*0.15);
         int i = 0;
         while(i < nbObstacle){
-            int randomX = randomPosition(size);
-            int randomY = randomPosition(size);
+            int randomX = randomInt(size);
+            int randomY = randomInt(size);
             Position position = Position.of(randomX, randomY, Direction.NORTH);
             if(isPositionOnMap(position)){
                 i = +0;
@@ -41,9 +42,20 @@ public class PlanetMapImpl implements PlanetMap {
         }
     }
 
-    public int randomPosition(int size){
-        int x = 0;
-        x = (int)(Math.random() * size);
+    public Position randomPositionRover(int size){
+        int randomX = randomInt(size);
+        int randomY = randomInt(size);
+        Position position = Position.of(randomX, randomY, randomDirection());
+        System.out.println("DIRECTION DE RANDOM : "+ position.getDirection());
+        if(isPositionOnMap(position)){
+            System.out.println("CETTE POSITION EST DEJA PRISE");
+            position = randomPositionRover(size);
+        }
+        return position;
+    }
+
+    public int randomInt(int size){
+        int x = (int)(Math.random() * size);
         if(x > size/2){
             x = x/2;
         }else{
@@ -52,12 +64,38 @@ public class PlanetMapImpl implements PlanetMap {
         return x;
     }
 
+    public Direction randomDirection(){
+        Direction dir = Direction.NORTH;
+        Random r = new Random();
+        int rand = r.nextInt(4);
+        System.out.println("RANDOM NUMBER : " + rand);
+        switch (rand){
+            case 0:
+                dir = Direction.NORTH;
+                break;
+            case 1:
+                dir = Direction.SOUTH;
+                break;
+            case 2:
+                dir = Direction.EAST;
+                break;
+            case 3:
+                dir = Direction.WEST;
+                break;
+        }
+        return dir;
+    }
+
     public int getLaserRange() {
         return laserRange;
     }
 
     public void setLaserRange(int laserRange) {
         this.laserRange = laserRange;
+    }
+
+    public Set<Position> getObstaclePositions() {
+        return obstaclePositions;
     }
 
     @Override
