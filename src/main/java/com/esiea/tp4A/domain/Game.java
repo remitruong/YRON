@@ -7,9 +7,9 @@ public class Game implements Serializable {
     private PlanetMap map;
     private List<MarsRover> roverList;
 
-    public generateMap(float pourcentageObstable, int range, int size){
+    /*public generateMap(float pourcentageObstable, int range, int size){
         this.map.setLaserRange(range);
         //generatePosition pour le rover et les obstacles
-    }
+    }*/
 
 }
