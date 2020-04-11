@@ -8,12 +8,11 @@ public class MarsRoverImpl implements MarsRover {
     public MarsRoverImpl(Position position, String name, PlanetMapImpl planetMap) {
         this.map = planetMap;
         this.name = name;
-        this.position = position;
+        this.initialize(position);
     }
 
     public MarsRover initialize(Position position) {
         this.position = position;
-        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         return this;
     }
 
