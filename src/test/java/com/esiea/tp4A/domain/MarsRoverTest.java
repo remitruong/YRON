@@ -655,8 +655,8 @@ class MarsRoverTest {
 
         roverNorth.move("s");
 
-        assertThat(planetMap.isOtherRoverAtPosition(roverPosition))
-            .as("Check if rover is on map after laser shot")
-            .isNull();
+        assertThat(planetMap.getRoverByName("Matué").isAlive())
+            .as("Check if rover is killed")
+            .isFalse();
     }
 }
