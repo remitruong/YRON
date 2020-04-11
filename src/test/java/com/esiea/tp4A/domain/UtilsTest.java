@@ -7,10 +7,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UtilsTest {
+    private final Utils utils = new Utils();
 
     @Test
     void random_int() {
-        int rand = Utils.randomInt(5);
+        int rand = utils.randomInt(5);
         assertThat(rand)
             .as("random int between 0 and 4")
             .isBetween(0, 5);
@@ -18,7 +19,7 @@ class UtilsTest {
 
     @Test
     void randomIntForPosition() {
-        int rand = Utils.randomIntForPosition(50);
+        int rand = utils.randomIntForPosition(50);
         assertThat(rand)
             .as("random int between -24 and 25")
             .isBetween(-24, 25);
@@ -26,7 +27,7 @@ class UtilsTest {
 
     @Test
     void randomDirection() {
-        Direction rand = Utils.randomDirection();
+        Direction rand = utils.randomDirection();
         assertThat(rand)
             .as("random directions")
             .isIn(Direction.values());
@@ -35,7 +36,7 @@ class UtilsTest {
     @Test
     void randomPosition() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(50);
-        Position rand = Utils.randomPosition(planetMap.getSizeOfTheMap(), planetMap);
+        Position rand = utils.randomPosition(planetMap.getSizeOfTheMap(), planetMap);
 
         assertThat(rand.getX())
             .as("Random X on map")
@@ -47,8 +48,27 @@ class UtilsTest {
     }
 
     @Test
+    void randomPosition_withOnlyOnePositionFree() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(2);
+        Position obstaclePosition1 = Position.of(0, 0, Direction.NORTH);
+        Position obstaclePosition2 = Position.of(0, -1, Direction.NORTH);
+        Position obstaclePosition3 = Position.of(-1, 0, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition1);
+        planetMap.addObstaclePosition(obstaclePosition2);
+        planetMap.addObstaclePosition(obstaclePosition3);
+
+        Position rand = utils.randomPosition(planetMap.getSizeOfTheMap(), planetMap);
+
+        assertThat(rand)
+                .as("Random X and Y on map with only one position free")
+                .extracting(Position::getX, Position::getY)
+                .isEqualTo(List.of(-1, -1));
+
+    }
+
+    @Test
     void generateRandMapSize() {
-        int rand = Utils.generateRandMapSize();
+        int rand = utils.generateRandMapSize();
 
         assertThat(rand)
             .as("Random map size")
@@ -57,7 +77,7 @@ class UtilsTest {
 
     @Test
     void generateRandLaserRange() {
-        int rand = Utils.generateRandLaserRange(100);
+        int rand = utils.generateRandLaserRange(100);
 
         assertThat(rand)
             .as("Random map size")

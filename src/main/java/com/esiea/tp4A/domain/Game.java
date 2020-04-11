@@ -8,15 +8,16 @@ public class Game implements Serializable {
     private PlanetMapImpl map;
     private int mapSize;
     private int laserRange;
+    private final Utils utils = new Utils();
 
     public Game(String id){
         this.id = id;
 
-        this.mapSize = Utils.generateRandMapSize();
+        this.mapSize = utils.generateRandMapSize();
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(this.mapSize);
         this.map.generateObstacle(this.mapSize);
 
-        this.laserRange = Utils.generateRandLaserRange(this.getMapSize());
+        this.laserRange = utils.generateRandLaserRange(this.getMapSize());
     }
 
     public String getId() {

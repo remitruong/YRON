@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PlanetMapTest {
+    private final Utils utils = new Utils();
     /*
      * Adding obstacle
      */
@@ -264,7 +265,7 @@ class PlanetMapTest {
 
     @Test
     void get_rover_by_name() {
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(Utils.generateRandMapSize());
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(utils.generateRandMapSize());
         planetMap.generateRover("Justin NOUVOROVEUR", 10);
 
         assertThat(planetMap.getRoverByName("Justin NOUVOROVEUR").getName())
