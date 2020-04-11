@@ -25,6 +25,33 @@ public class PlanetMapImpl implements PlanetMap {
         return this;
     }
 
+    public void GenerateObstacle (int size){
+        int nbObstacle = (int) (size*0.15);
+        int i = 0;
+        while(i < nbObstacle){
+            int randomX = randomPosition(size);
+            int randomY = randomPosition(size);
+            Position position = Position.of(randomX, randomY, Direction.NORTH);
+            if(isPositionOnMap(position)){
+                i = +0;
+            }else{
+                addObstaclePosition(position);
+                i++;
+            }
+        }
+    }
+
+    public int randomPosition(int size){
+        int x = 0;
+        x = (int)(Math.random() * size);
+        if(x > size/2){
+            x = x/2;
+        }else{
+            x = -x;
+        }
+        return x;
+    }
+
     public int getLaserRange() {
         return laserRange;
     }
