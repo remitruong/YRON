@@ -1,23 +1,23 @@
 package com.esiea.tp4A.domain;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
+    private HashMap<String, MarsRoverImpl> roverList;
     private int sizeOfTheMap;
-    private int laserRange;
 
     public PlanetMap initialize() {
         this.sizeOfTheMap = 100;
         initialize(new HashSet<>());
+        this.roverList = new HashMap<>();
         return this;
     }
 
     public PlanetMap initialize(int size) {
         this.sizeOfTheMap = size;
         initialize(new HashSet<>());
+        this.roverList = new HashMap<>();
         return this;
     }
 
@@ -30,10 +30,10 @@ public class PlanetMapImpl implements PlanetMap {
         int nbObstacle = (int) (size*0.15);
         int i = 0;
         while(i < nbObstacle){
-            int randomX = randomInt(size);
-            int randomY = randomInt(size);
+            int randomX = Utils.randomIntForPosition(size);
+            int randomY = Utils.randomIntForPosition(size);
             Position position = Position.of(randomX, randomY, Direction.NORTH);
-            if(isPositionOnMap(position)){
+            if(isObstaclePositionOnMap(position)){
                 i = +0;
             }else{
                 addObstaclePosition(position);
@@ -42,57 +42,23 @@ public class PlanetMapImpl implements PlanetMap {
         }
     }
 
-    public Position randomPositionRover(int size){
-        int randomX = randomInt(size);
-        int randomY = randomInt(size);
-        Position position = Position.of(randomX, randomY, randomDirection());
-        if(isPositionOnMap(position)){
-            position = randomPositionRover(size);
-        }
-        return position;
+    public MarsRoverImpl generateRover(String name, int laserRange){
+        Position roverPosition = Utils.randomPosition(this.getSizeOfTheMap(), this);
+        MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name, this, laserRange);
+        this.roverList.put(name, rover);
+
+        return rover;
     }
 
-    public int randomInt(int size){
-        int x = (int)(Math.random() * size);
-        if(x > size/2){
-            x = x/2;
-        }else{
-            x = -x;
-        }
-        return x;
+    public MarsRoverImpl generateRover(String name, Position pos, int laserRange){
+        MarsRoverImpl rover = new MarsRoverImpl(pos, name, this, laserRange);
+        this.roverList.put(name, rover);
+
+        return rover;
     }
 
-    public Direction randomDirection(){
-        Direction dir = Direction.NORTH;
-        Random r = new Random();
-        int rand = r.nextInt(4);
-        switch (rand){
-            case 0:
-                dir = Direction.NORTH;
-                break;
-            case 1:
-                dir = Direction.SOUTH;
-                break;
-            case 2:
-                dir = Direction.EAST;
-                break;
-            case 3:
-                dir = Direction.WEST;
-                break;
-        }
-        return dir;
-    }
-
-    public int getLaserRange() {
-        return laserRange;
-    }
-
-    public void setLaserRange(int laserRange) {
-        this.laserRange = laserRange;
-    }
-
-    public Set<Position> getObstaclePositions() {
-        return obstaclePositions;
+    public HashMap getRoverList() {
+        return this.roverList;
     }
 
     @Override
@@ -102,7 +68,7 @@ public class PlanetMapImpl implements PlanetMap {
 
     // Add an obstacle, if the obstacle position is already used : return null
     public boolean addObstaclePosition(Position position) {
-        if (!this.isPositionOnMap(position)) {
+        if (!this.isObstaclePositionOnMap(position)) {
             this.obstaclePositions.add(position);
             return true;
         }
@@ -110,18 +76,23 @@ public class PlanetMapImpl implements PlanetMap {
         return false;
     }
 
-    // Remove an obstacle of the map, and return true if the obstacle is found, false if not
-    public boolean removeObstaclePosition(Position position) {
-        if (this.isPositionOnMap(position)) {
-            this.obstaclePositions.removeIf(pos -> pos.getX() == position.getX() &&
-                    pos.getY() == position.getY());
+    // Remove an object of the map, and return true if the obstacle is found, false if not
+    public boolean destroyObjectAtPosition(Position position) {
+        MarsRoverImpl roverAtPosition = isOtherRoverAtPosition(position); // null if no rover
+
+        if(this.isObstaclePositionOnMap(position)) {
+            this.obstaclePositions.removeIf(pos -> pos.getX() == position.getX() && pos.getY() == position.getY());
+            return true;
+        }
+        else if(roverAtPosition != null) {
+            roverAtPosition.kill();
             return true;
         }
 
         return false;
     }
 
-    boolean isPositionOnMap(Position position) {
+    public boolean isObstaclePositionOnMap(Position position) {
         for (Position p : this.obstaclePositions) {
             if (p.getX() == position.getX() && p.getY() == position.getY()) {
                 return true;
@@ -130,13 +101,27 @@ public class PlanetMapImpl implements PlanetMap {
         return false;
     }
 
+    public MarsRoverImpl isOtherRoverAtPosition(Position position) {
+        if(this.roverList != null && this.roverList.size()>0) {
+            for (MarsRoverImpl rover : this.roverList.values()) {
+                if (rover.getPosition().getX() == position.getX() && rover.getPosition().getY() == position.getY()) {
+                    return rover;
+                }
+            }
+        }
+        return null;
+    }
+
+    public MarsRoverImpl getRoverByName(String name) {
+        return this.roverList.get(name);
+    }
+
     public int getSizeOfTheMap() {
-        return sizeOfTheMap;
+        return this.sizeOfTheMap;
     }
 
     boolean isLimitOfMap(Position position){
         return position.getX() == (getSizeOfTheMap() / 2) || position.getY() == (getSizeOfTheMap() / 2)
             || position.getX() == -((getSizeOfTheMap() / 2) - 1) || position.getY() == -((getSizeOfTheMap() / 2) - 1);
     }
-
 }
