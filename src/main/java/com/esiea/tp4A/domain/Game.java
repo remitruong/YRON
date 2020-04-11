@@ -4,12 +4,26 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Game implements Serializable {
-    private PlanetMap map;
+    private Integer id;
+    private PlanetMapImpl map;
     private List<MarsRover> roverList;
 
-    public generateMap(float pourcentageObstable, int range, int size){
+    public Game(int range, int size, Integer id){
+        this.id = id;
+        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(size);
         this.map.setLaserRange(range);
-        //generatePosition pour le rover et les obstacles
+
+        //generate obstacle
+    }
+
+    /*public void generateRover(String name){
+        Position roverPosition = generatePosition();
+        MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name);
+        this.roverList.add(rover);
+    }*/
+
+    public Integer getId() {
+        return id;
     }
 
 }
