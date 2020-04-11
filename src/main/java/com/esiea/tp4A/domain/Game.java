@@ -17,11 +17,11 @@ public class Game implements Serializable {
         this.map.generateObstacle(size);
     }
 
-    /*public void generateRover(String name){
+    public void generateRover(String name){
         Position roverPosition = this.map.randomPositionRover(this.getMapSize());
-        MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name);
+        MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name, map);
         this.roverList.add(rover);
-    }*/
+    }
 
     public Integer getId() {
         return id;
