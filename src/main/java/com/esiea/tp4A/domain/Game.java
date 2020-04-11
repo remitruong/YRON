@@ -12,7 +12,6 @@ public class Game implements Serializable {
 
     public Game(String id){
         this.id = id;
-
         this.mapSize = utils.generateRandMapSize();
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(this.mapSize);
         this.map.generateObstacle(this.mapSize);
