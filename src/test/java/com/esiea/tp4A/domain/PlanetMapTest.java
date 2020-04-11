@@ -201,4 +201,35 @@ class PlanetMapTest {
             .as("Check if the position is a limit of the map -99 -99")
             .isEqualTo(true);
     }
+
+    @Test
+    void generate_Obstacle_100(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        planetMap.generateObstacle(100);
+
+        assertThat(planetMap.getObstaclePositions().size())
+            .as("Check numbers of obstacle on map of 100")
+            .isEqualTo(15);
+    }
+
+    @Test
+    void generate_Obstacle_300(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(300);
+        planetMap.generateObstacle(300);
+
+        assertThat(planetMap.getObstaclePositions().size())
+            .as("Check numbers of obstacle on map of 300")
+            .isEqualTo(45);
+    }
+
+    @Test
+    void generate_Obstacle_600(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(600);
+        planetMap.generateObstacle(600);
+
+        assertThat(planetMap.getObstaclePositions().size())
+            .as("Check numbers of obstacle on map")
+            .isEqualTo(90);
+    }
+
 }

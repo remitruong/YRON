@@ -7,21 +7,37 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MarsRoverTest {
-    private final MarsRoverImpl roverNorth = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.NORTH));
-    private final MarsRoverImpl roverSouth = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.SOUTH));
-    private final MarsRoverImpl roverEast = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.EAST));
-    private final MarsRoverImpl roverWest = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 0, Direction.WEST));
+    private final PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+    private final MarsRoverImpl roverNorth = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Jean", planetMap);
+    private final MarsRoverImpl roverSouth = new MarsRoverImpl(Position.of(0, 0, Direction.SOUTH),"Veronika", planetMap);
+    private final MarsRoverImpl roverEast = new MarsRoverImpl(Position.of(0, 0, Direction.EAST),"Alicia", planetMap);
+    private final MarsRoverImpl roverWest = new MarsRoverImpl(Position.of(0, 0, Direction.WEST),"Nicolas", planetMap);
 
-    private final MarsRoverImpl roverNorthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 50, Direction.NORTH));
-    private final MarsRoverImpl roverSouthLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, -49, Direction.SOUTH));
-    private final MarsRoverImpl roverEastLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(50, 0, Direction.EAST));
-    private final MarsRoverImpl roverWestLimit = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(-49, 0, Direction.WEST));
+    private final MarsRoverImpl roverNorthLimit = new MarsRoverImpl(Position.of(0, 50, Direction.NORTH), "Irwin", planetMap);
+    private final MarsRoverImpl roverSouthLimit = new MarsRoverImpl(Position.of(0, -49, Direction.SOUTH), "Claire", planetMap);
+    private final MarsRoverImpl roverEastLimit = new MarsRoverImpl(Position.of(50, 0, Direction.EAST), "Ron", planetMap);
+    private final MarsRoverImpl roverWestLimit = new MarsRoverImpl(Position.of(-49, 0, Direction.WEST), "Bruce", planetMap);
 
-    private final MarsRoverImpl roverNorthLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, -49, Direction.NORTH));
-    private final MarsRoverImpl roverSouthLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(0, 50, Direction.SOUTH));
-    private final MarsRoverImpl roverEastLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(-49, 0, Direction.EAST));
-    private final MarsRoverImpl roverWestLimit2 = (MarsRoverImpl) new MarsRoverImpl().initialize(Position.of(50, 0, Direction.WEST));
+    private final MarsRoverImpl roverNorthLimit2 = new MarsRoverImpl(Position.of(0, -49, Direction.NORTH), "David", planetMap);
+    private final MarsRoverImpl roverSouthLimit2 = new MarsRoverImpl(Position.of(0, 50, Direction.SOUTH), "Chloe", planetMap);
+    private final MarsRoverImpl roverEastLimit2 = new MarsRoverImpl(Position.of(-49, 0, Direction.EAST), "Eve", planetMap);
+    private final MarsRoverImpl roverWestLimit2 = new MarsRoverImpl(Position.of(50, 0, Direction.WEST), "Maud", planetMap);
 
+    @Test
+    void rover_name_test(){
+        assertThat(roverNorth.getName())
+            .as("Test the name of the Rover")
+            .isEqualTo("Jean");
+        assertThat(roverSouth.getName())
+            .as("Test the name of the Rover")
+            .isEqualTo("Veronika");
+        assertThat(roverEast.getName())
+            .as("Test the name of the Rover")
+            .isEqualTo("Alicia");
+        assertThat(roverWest.getName())
+            .as("Test the name of the Rover")
+            .isEqualTo("Nicolas");
+    }
 
     //Forward limit tests
     @Test
