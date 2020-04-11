@@ -2,14 +2,13 @@ package com.esiea.tp4A.domain;
 
 import java.util.Random;
 
-// @Info static : methods in this class don't need an object to be used
 public class Utils {
-    public static int randomInt(int max) {
+    public int randomInt(int max) {
         Random rand = new Random();
         return rand.nextInt(max);
     }
 
-    public static int randomIntForPosition(int size){
+    public int randomIntForPosition(int size){
         int x = (int)(Math.random() * size);
         if(x > size/2) {
             x = x/2;
@@ -19,7 +18,7 @@ public class Utils {
         return x;
     }
 
-    public static Direction randomDirection(){
+    public Direction randomDirection(){
         Direction dir = null;
         Random r = new Random();
         int rand = randomInt(4);
@@ -40,19 +39,19 @@ public class Utils {
         return dir;
     }
 
-    public static Position randomPosition(int size, PlanetMapImpl map){
-        int randomX = Utils.randomIntForPosition(size);
-        int randomY = Utils.randomIntForPosition(size);
-        Position position = Position.of(randomX, randomY, Utils.randomDirection());
+    public Position randomPosition(int size, PlanetMapImpl map){
+        int randomX = randomIntForPosition(size);
+        int randomY = randomIntForPosition(size);
+        Position position = Position.of(randomX, randomY, randomDirection());
         if(map.isObstaclePositionOnMap(position)){
             position = randomPosition(map.getSizeOfTheMap(), map);
         }
         return position;
     }
 
-    public static int generateRandMapSize() {
+    public int generateRandMapSize() {
         int result = 0;
-        int rand = Utils.randomInt(3);
+        int rand = randomInt(3);
         switch(rand) {
             case 0:
                 result = 100;
@@ -67,9 +66,9 @@ public class Utils {
         return result;
     }
 
-    public static int generateRandLaserRange(int mapSize) {
+    public int generateRandLaserRange(int mapSize) {
         int result = 0;
-        int rand = Utils.randomInt(3);
+        int rand = randomInt(3);
         switch(rand) {
             case 0:
                 result = 5;

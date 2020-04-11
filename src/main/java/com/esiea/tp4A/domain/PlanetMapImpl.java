@@ -6,6 +6,7 @@ public class PlanetMapImpl implements PlanetMap {
     private Set<Position> obstaclePositions;
     private HashMap<String, MarsRoverImpl> roverList;
     private int sizeOfTheMap;
+    private final Utils utils = new Utils();
 
     public PlanetMap initialize() {
         this.sizeOfTheMap = 100;
@@ -30,8 +31,8 @@ public class PlanetMapImpl implements PlanetMap {
         int nbObstacle = (int) (size*0.15);
         int i = 0;
         while(i < nbObstacle){
-            int randomX = Utils.randomIntForPosition(size);
-            int randomY = Utils.randomIntForPosition(size);
+            int randomX = utils.randomIntForPosition(size);
+            int randomY = utils.randomIntForPosition(size);
             Position position = Position.of(randomX, randomY, Direction.NORTH);
             if(isObstaclePositionOnMap(position)){
                 i = +0;
@@ -43,7 +44,7 @@ public class PlanetMapImpl implements PlanetMap {
     }
 
     public MarsRoverImpl generateRover(String name, int laserRange){
-        Position roverPosition = Utils.randomPosition(this.getSizeOfTheMap(), this);
+        Position roverPosition = utils.randomPosition(this.getSizeOfTheMap(), this);
         MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name, this, laserRange);
         this.roverList.put(name, rover);
 
