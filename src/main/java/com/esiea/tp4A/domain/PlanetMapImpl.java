@@ -102,7 +102,7 @@ public class PlanetMapImpl implements PlanetMap {
     }
 
     public MarsRoverImpl isOtherRoverAtPosition(Position position) {
-        if(this.roverList != null && this.roverList.size()>0) {
+        if(this.roverList != null) {
             for (MarsRoverImpl rover : this.roverList.values()) {
                 if (rover.getPosition().getX() == position.getX() && rover.getPosition().getY() == position.getY()) {
                     return rover;

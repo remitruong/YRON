@@ -34,6 +34,7 @@ class PlanetMapTest {
     void check_position_on_map() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         Position obstaclePosition = Position.of(0, 3, Direction.NORTH);
+        planetMap.addObstaclePosition(obstaclePosition);
 
         assertThat(planetMap.isObstaclePositionOnMap(obstaclePosition))
             .as("Check if position on map")
