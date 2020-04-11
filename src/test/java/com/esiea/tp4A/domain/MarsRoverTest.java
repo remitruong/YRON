@@ -3,26 +3,30 @@ package com.esiea.tp4A.domain;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MarsRoverTest {
     private final PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
-    private final MarsRoverImpl roverNorth = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Jean", planetMap);
-    private final MarsRoverImpl roverSouth = new MarsRoverImpl(Position.of(0, 0, Direction.SOUTH),"Veronika", planetMap);
-    private final MarsRoverImpl roverEast = new MarsRoverImpl(Position.of(0, 0, Direction.EAST),"Alicia", planetMap);
-    private final MarsRoverImpl roverWest = new MarsRoverImpl(Position.of(0, 0, Direction.WEST),"Nicolas", planetMap);
+    private final MarsRoverImpl roverNorth = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Jean", planetMap, 10);
+    private final MarsRoverImpl roverSouth = new MarsRoverImpl(Position.of(0, 0, Direction.SOUTH),"Veronika", planetMap, 10);
+    private final MarsRoverImpl roverEast = new MarsRoverImpl(Position.of(0, 0, Direction.EAST),"Alicia", planetMap, 10);
+    private final MarsRoverImpl roverWest = new MarsRoverImpl(Position.of(0, 0, Direction.WEST),"Nicolas", planetMap, 10);
 
-    private final MarsRoverImpl roverNorthLimit = new MarsRoverImpl(Position.of(0, 50, Direction.NORTH), "Irwin", planetMap);
-    private final MarsRoverImpl roverSouthLimit = new MarsRoverImpl(Position.of(0, -49, Direction.SOUTH), "Claire", planetMap);
-    private final MarsRoverImpl roverEastLimit = new MarsRoverImpl(Position.of(50, 0, Direction.EAST), "Ron", planetMap);
-    private final MarsRoverImpl roverWestLimit = new MarsRoverImpl(Position.of(-49, 0, Direction.WEST), "Bruce", planetMap);
+    private final MarsRoverImpl roverNorthLimit = new MarsRoverImpl(Position.of(0, 50, Direction.NORTH), "Irwin", planetMap, 10);
+    private final MarsRoverImpl roverSouthLimit = new MarsRoverImpl(Position.of(0, -49, Direction.SOUTH), "Claire", planetMap, 10);
+    private final MarsRoverImpl roverEastLimit = new MarsRoverImpl(Position.of(50, 0, Direction.EAST), "Ron", planetMap, 10);
+    private final MarsRoverImpl roverWestLimit = new MarsRoverImpl(Position.of(-49, 0, Direction.WEST), "Bruce", planetMap, 10);
 
-    private final MarsRoverImpl roverNorthLimit2 = new MarsRoverImpl(Position.of(0, -49, Direction.NORTH), "David", planetMap);
-    private final MarsRoverImpl roverSouthLimit2 = new MarsRoverImpl(Position.of(0, 50, Direction.SOUTH), "Chloe", planetMap);
-    private final MarsRoverImpl roverEastLimit2 = new MarsRoverImpl(Position.of(-49, 0, Direction.EAST), "Eve", planetMap);
-    private final MarsRoverImpl roverWestLimit2 = new MarsRoverImpl(Position.of(50, 0, Direction.WEST), "Maud", planetMap);
+    private final MarsRoverImpl roverNorthLimit2 = new MarsRoverImpl(Position.of(0, -49, Direction.NORTH), "David", planetMap, 10);
+    private final MarsRoverImpl roverSouthLimit2 = new MarsRoverImpl(Position.of(0, 50, Direction.SOUTH), "Chloe", planetMap, 10);
+    private final MarsRoverImpl roverEastLimit2 = new MarsRoverImpl(Position.of(-49, 0, Direction.EAST), "Eve", planetMap, 10);
+    private final MarsRoverImpl roverWestLimit2 = new MarsRoverImpl(Position.of(50, 0, Direction.WEST), "Maud", planetMap, 10);
 
+    /*
+     * Rover Info
+     */
     @Test
     void rover_name_test(){
         assertThat(roverNorth.getName())
@@ -37,6 +41,25 @@ class MarsRoverTest {
         assertThat(roverWest.getName())
             .as("Test the name of the Rover")
             .isEqualTo("Nicolas");
+    }
+
+    @Test
+    void rover_alive_at_creation() {
+        MarsRoverImpl rover = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Justin NOUVOROVEUR", planetMap, 10);
+
+        assertThat(rover.isAlive())
+            .as("Test if a new rover is alive at creation")
+            .isTrue();
+    }
+
+    @Test
+    void rover_kill() {
+        MarsRoverImpl rover = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Justin NOUVOROVEUR", planetMap, 10);
+        rover.kill();
+
+        assertThat(rover.isAlive())
+            .as("Test if rover is killed")
+            .isFalse();
     }
 
     //Forward limit tests
@@ -471,7 +494,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverNorth.configureLaserRange(10);
-        roverNorth.shootLaser();
+        roverNorth.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -490,7 +513,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverSouth.configureLaserRange(10);
-        roverSouth.shootLaser();
+        roverSouth.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -509,7 +532,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverEast.configureLaserRange(10);
-        roverEast.shootLaser();
+        roverEast.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -528,7 +551,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverWest.configureLaserRange(10);
-        roverWest.shootLaser();
+        roverWest.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -547,7 +570,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverNorth.configureLaserRange(10);
-        roverNorth.shootLaser();
+        roverNorth.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -566,7 +589,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition);
 
         roverNorth.configureLaserRange(10);
-        roverNorth.shootLaser();
+        roverNorth.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well destroyed")
@@ -591,7 +614,7 @@ class MarsRoverTest {
                 .contains(obstaclePosition2);
 
         roverNorth.configureLaserRange(10);
-        roverNorth.shootLaser();
+        roverNorth.move("s");
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the first obstacle is well destroyed")
@@ -608,7 +631,7 @@ class MarsRoverTest {
         roverNorth.updateMap(planetMap);
 
         roverNorth.configureLaserRange(10);
-        roverNorth.shootLaser();
+        roverNorth.move("s");
         Character[] commands = {'f', 'f', 'f', 'f'};
         Position newPosition = roverNorth.move(commands);
 
@@ -616,5 +639,24 @@ class MarsRoverTest {
                 .as("Rover position after f command without obstacle and laser shot")
                 .extracting(Position::getX, Position::getY, Position::getDirection)
                 .isEqualTo(List.of(0, 4, Direction.NORTH));
+    }
+
+    @Test
+    void tirLaser_withRover() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize();
+        roverNorth.updateMap(planetMap);
+        roverNorth.configureLaserRange(10);
+        Position roverPosition = Position.of(0, 1, Direction.NORTH);
+        planetMap.generateRover("Matué", roverPosition, 10);
+
+        assertThat(planetMap.isOtherRoverAtPosition(roverPosition))
+            .as("Check if rover is on map")
+            .isNotNull();
+
+        roverNorth.move("s");
+
+        assertThat(planetMap.isOtherRoverAtPosition(roverPosition))
+            .as("Check if rover is on map after laser shot")
+            .isNull();
     }
 }

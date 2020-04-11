@@ -17,7 +17,6 @@ class PlanetMapTest {
         assertThat(status)
                 .as("addObstaclePosition status after attempt")
                 .isEqualTo(true);
-
     }
 
     @Test
@@ -29,6 +28,16 @@ class PlanetMapTest {
         assertThat(planetMap.obstaclePositions())
                 .as("Check if obstacle is on map")
                 .contains(obstaclePosition);
+    }
+
+    @Test
+    void check_position_on_map() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        Position obstaclePosition = Position.of(0, 3, Direction.NORTH);
+
+        assertThat(planetMap.isObstaclePositionOnMap(obstaclePosition))
+            .as("Check if position on map")
+            .isTrue();
     }
 
     @Test
@@ -51,6 +60,36 @@ class PlanetMapTest {
                 .containsOnlyOnce(obstaclePosition);
     }
 
+    @Test
+    void generate_Obstacle_100(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
+        planetMap.generateObstacle(planetMap.getSizeOfTheMap());
+
+        assertThat(planetMap.obstaclePositions().size())
+                .as("Check numbers of obstacle on map of 100")
+                .isEqualTo(15);
+    }
+
+    @Test
+    void generate_Obstacle_300(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(300);
+        planetMap.generateObstacle(planetMap.getSizeOfTheMap());
+
+        assertThat(planetMap.obstaclePositions().size())
+                .as("Check numbers of obstacle on map of 300")
+                .isEqualTo(45);
+    }
+
+    @Test
+    void generate_Obstacle_600(){
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(600);
+        planetMap.generateObstacle(planetMap.getSizeOfTheMap());
+
+        assertThat(planetMap.obstaclePositions().size())
+                .as("Check numbers of obstacle on map")
+                .isEqualTo(90);
+    }
+
     /*
      * Remove obstacle
      */
@@ -59,7 +98,7 @@ class PlanetMapTest {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         Position obstaclePosition = Position.of(1, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition); // add obstacle
-        boolean status = planetMap.removeObstaclePosition(obstaclePosition);
+        boolean status = planetMap.destroyObjectAtPosition(obstaclePosition);
 
         assertThat(status)
                 .as("removeObstaclePosition status after attempt")
@@ -71,11 +110,15 @@ class PlanetMapTest {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         Position obstaclePosition = Position.of(1, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition); // add obstacle
-        boolean status = planetMap.removeObstaclePosition(obstaclePosition);
+        boolean status = planetMap.destroyObjectAtPosition(obstaclePosition);
 
         assertThat(planetMap.obstaclePositions())
                 .as("Check if the obstacle is well removed")
                 .doesNotContain(obstaclePosition);
+
+        assertThat(planetMap.isObstaclePositionOnMap(obstaclePosition))
+                .as("Check if there is no more obstacle at the position")
+                .isFalse();
     }
 
     @Test
@@ -84,8 +127,8 @@ class PlanetMapTest {
         Position obstaclePosition = Position.of(1, 0, Direction.NORTH);
         planetMap.addObstaclePosition(obstaclePosition); // add obstacle
 
-        boolean status1 = planetMap.removeObstaclePosition(obstaclePosition);
-        boolean status2 = planetMap.removeObstaclePosition(obstaclePosition);
+        boolean status1 = planetMap.destroyObjectAtPosition(obstaclePosition);
+        boolean status2 = planetMap.destroyObjectAtPosition(obstaclePosition);
 
         assertThat(status1)
                 .as("First removeObstaclePosition status attempt")
@@ -100,6 +143,9 @@ class PlanetMapTest {
                 .doesNotContain(obstaclePosition);
     }
 
+    /*
+     * Planet Info
+     */
     @Test
     void planet_size(){
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
@@ -202,34 +248,27 @@ class PlanetMapTest {
             .isEqualTo(true);
     }
 
+    /*
+     * Rover on map
+     */
     @Test
-    void generate_Obstacle_100(){
+    void generate_rover() {
         PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
-        planetMap.generateObstacle(100);
+        planetMap.generateRover("TestMap", 10);
 
-        assertThat(planetMap.getObstaclePositions().size())
-            .as("Check numbers of obstacle on map of 100")
-            .isEqualTo(15);
+        assertThat(planetMap.getRoverList().size())
+            .as("Check if rover is added to roverList")
+            .isEqualTo(1);
     }
 
     @Test
-    void generate_Obstacle_300(){
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(300);
-        planetMap.generateObstacle(300);
+    void get_rover_by_name() {
+        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(Utils.generateRandMapSize());
+        planetMap.generateRover("Justin NOUVOROVEUR", 10);
 
-        assertThat(planetMap.getObstaclePositions().size())
-            .as("Check numbers of obstacle on map of 300")
-            .isEqualTo(45);
-    }
-
-    @Test
-    void generate_Obstacle_600(){
-        PlanetMapImpl planetMap = (PlanetMapImpl) new PlanetMapImpl().initialize(600);
-        planetMap.generateObstacle(600);
-
-        assertThat(planetMap.getObstaclePositions().size())
-            .as("Check numbers of obstacle on map")
-            .isEqualTo(90);
+        assertThat(planetMap.getRoverByName("Justin NOUVOROVEUR").getName())
+            .as("Get rover by its name")
+            .isEqualTo("Justin NOUVOROVEUR");
     }
 
 }

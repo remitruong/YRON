@@ -1,14 +1,18 @@
 package com.esiea.tp4A.domain;
 
 public class MarsRoverImpl implements MarsRover {
-    private Position position;
-    private PlanetMapImpl map;
+    private Position position; // not final : Position is changing during the game
+    private PlanetMapImpl map; // not final : Map is changing during game
+    private boolean alive; // not final : Alive is changing during the game
+    private int laserRange; // not final : LaserRange is changing during the game
     private final String name;
 
-    public MarsRoverImpl(Position position, String name, PlanetMapImpl planetMap) {
+    public MarsRoverImpl(Position position, String name, PlanetMapImpl planetMap, int laserRange) {
         this.map = planetMap;
         this.name = name;
         this.initialize(position);
+        this.laserRange = laserRange;
+        this.alive = true;
     }
 
     public MarsRover initialize(Position position) {
@@ -23,17 +27,33 @@ public class MarsRoverImpl implements MarsRover {
     }
 
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
+
+    public int getLaserRange() {
+        return laserRange;
+    }
+
+    public void kill() {
+        this.alive = false;
+        this.position = null;
+    }
+
+    public boolean isAlive() {
+        return this.alive;
     }
 
     @Override
     public Position move(String command) {
         Position pos_next = this.position;
-
         pos_next = move_switch_main(command, pos_next);
 
         // check if map not null and if next position is not the position of an obstacle, if it's not : move to next
-        if (this.map != null && !this.map.isPositionOnMap(pos_next))
+        if (this.map != null && !this.map.isObstaclePositionOnMap(pos_next))
             this.position = pos_next;
 
         return this.position;
@@ -56,6 +76,8 @@ public class MarsRoverImpl implements MarsRover {
                 return move_switch_left(pos_next);
             case "r":
                 return move_switch_right(pos_next);
+            case "s":
+                return shootLaser();
             default:
                 return pos_next;
         }
@@ -122,25 +144,24 @@ public class MarsRoverImpl implements MarsRover {
     }
 
     public MarsRoverImpl configureLaserRange(int range) {
-        this.map.setLaserRange(range);
+        this.laserRange = range;
         return this;
     }
 
     public Position shootLaser() {
-        Position result = null;
         Position pos_next = this.position;
         int i = 0;
         boolean destroyed = false;
 
-        while (i <= this.map.getLaserRange() && !destroyed) { // As long as the laser has range and we haven't destroyed an obstacle
+        while (i <= this.getLaserRange() && !destroyed) { // As long as the laser has range and we haven't destroyed an obstacle
             pos_next = move_switch_front(pos_next); // Next cell on the laser range
 
-            if (this.map.isPositionOnMap(pos_next)) // Check if next cell on the laser range is a laser and if yes : destroy it
-                destroyed = map.removeObstaclePosition(pos_next);
+            if (this.map.isObstaclePositionOnMap(pos_next) || this.map.isOtherRoverAtPosition(pos_next) != null) // Check if next cell on the laser range is a obstacle or a rover and if yes : destroy it
+                destroyed = map.destroyObjectAtPosition(pos_next);
             i++;
         }
 
-        return result;
+        return this.getPosition(); // Return the actual position of the rover
     }
 
     public Position limitPositionForward(Position nextPosition){

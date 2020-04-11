@@ -4,27 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
-    private Integer id;
+    private String id;
     private PlanetMapImpl map;
-    private ArrayList<MarsRover> roverList;
     private int mapSize;
+    private int laserRange;
 
-    public Game(int range, int size, Integer id){
+    public Game(String id){
         this.id = id;
-        this.mapSize = size;
-        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(size);
-        this.map.setLaserRange(range);
-        this.map.generateObstacle(size);
-        this.roverList = new ArrayList<>();
+
+        this.mapSize = Utils.generateRandMapSize();
+        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(this.mapSize);
+        this.map.generateObstacle(this.mapSize);
+
+        this.laserRange = Utils.generateRandLaserRange(this.getMapSize());
     }
 
-    public void generateRover(String name){
-        Position roverPosition = this.map.randomPositionRover(this.getMapSize());
-        MarsRoverImpl rover = new MarsRoverImpl(roverPosition, name, map);
-        this.roverList.add(rover);
-    }
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -32,8 +27,15 @@ public class Game implements Serializable {
         return mapSize;
     }
 
-    public ArrayList<MarsRover> getRoverList() {
-        return roverList;
+    public PlanetMapImpl getPlanetMap() {
+        return this.map;
     }
 
+    public int getLaserRange() {
+        return this.laserRange;
+    }
+
+    public MarsRoverImpl generateRover(String name) {
+        return this.map.generateRover(name, this.getLaserRange());
+    }
 }
