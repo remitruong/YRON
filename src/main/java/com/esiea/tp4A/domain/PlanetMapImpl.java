@@ -46,9 +46,7 @@ public class PlanetMapImpl implements PlanetMap {
         int randomX = randomInt(size);
         int randomY = randomInt(size);
         Position position = Position.of(randomX, randomY, randomDirection());
-        System.out.println("DIRECTION DE RANDOM : "+ position.getDirection());
         if(isPositionOnMap(position)){
-            System.out.println("CETTE POSITION EST DEJA PRISE");
             position = randomPositionRover(size);
         }
         return position;
@@ -68,7 +66,6 @@ public class PlanetMapImpl implements PlanetMap {
         Direction dir = Direction.NORTH;
         Random r = new Random();
         int rand = r.nextInt(4);
-        System.out.println("RANDOM NUMBER : " + rand);
         switch (rand){
             case 0:
                 dir = Direction.NORTH;

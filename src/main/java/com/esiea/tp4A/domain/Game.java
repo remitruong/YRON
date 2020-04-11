@@ -1,12 +1,12 @@
 package com.esiea.tp4A.domain;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Game implements Serializable {
     private Integer id;
     private PlanetMapImpl map;
-    private List<MarsRover> roverList;
+    private ArrayList<MarsRover> roverList;
     private int mapSize;
 
     public Game(int range, int size, Integer id){
@@ -15,6 +15,7 @@ public class Game implements Serializable {
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(size);
         this.map.setLaserRange(range);
         this.map.generateObstacle(size);
+        this.roverList = new ArrayList<>();
     }
 
     public void generateRover(String name){
@@ -29,6 +30,10 @@ public class Game implements Serializable {
 
     public int getMapSize() {
         return mapSize;
+    }
+
+    public ArrayList<MarsRover> getRoverList() {
+        return roverList;
     }
 
 }
