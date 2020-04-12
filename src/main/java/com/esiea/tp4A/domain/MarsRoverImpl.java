@@ -1,11 +1,13 @@
 package com.esiea.tp4A.domain;
 
-public class MarsRoverImpl implements MarsRover {
+import java.io.Serializable;
+
+public class MarsRoverImpl implements MarsRover, Serializable {
+    private final String name;
     private Position position; // not final : Position is changing during the game
     private PlanetMapImpl map; // not final : Map is changing during game
     private boolean alive; // not final : Alive is changing during the game
     private int laserRange; // not final : LaserRange is changing during the game
-    private final String name;
 
     public MarsRoverImpl(Position position, String name, PlanetMapImpl planetMap, int laserRange) {
         this.map = planetMap;
@@ -17,6 +19,7 @@ public class MarsRoverImpl implements MarsRover {
 
     public MarsRover initialize(Position position) {
         this.position = position;
+        this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(100);
         return this;
     }
 

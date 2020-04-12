@@ -1,8 +1,9 @@
 package com.esiea.tp4A.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class PlanetMapImpl implements PlanetMap {
+public class PlanetMapImpl implements PlanetMap, Serializable {
     private Set<Position> obstaclePositions;
     private HashMap<String, MarsRoverImpl> roverList;
     private int sizeOfTheMap;
