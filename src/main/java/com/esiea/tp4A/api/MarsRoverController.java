@@ -1,6 +1,8 @@
 package com.esiea.tp4A.api;
 
-import com.esiea.tp4A.domain.MarsRover;
+
+import com.esiea.tp4A.domain.Game;
+import com.esiea.tp4A.domain.MarsRoverImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +15,63 @@ public class MarsRoverController {
         return "Welcome to the Mars Rover API !";
     }
 
-    @PostMapping("/api/player/{playerName}")
-    public ResponseEntity createPlayer(@PathVariable String playerName) {
-        MarsRover rover = MarsRoverModel.createRover(playerName);
-
-        return ResponseEntity.ok(rover);
+    @PostMapping("/api/game/{gameName}")
+    public ResponseEntity createGame(@PathVariable String gameName) {
+        try {
+            Game game = MarsRoverModel.createGame(gameName);
+            return ResponseEntity.ok(game);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+        }
     }
 
-    @RequestMapping("/api/player/{playerName}")
-    public ResponseEntity getPlayer(@PathVariable String playerName) {
-        MarsRover rover = MarsRoverModel.getRover(playerName);
-        if (rover == null)
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        else
+    @RequestMapping("/api/game/{gameName}")
+    public ResponseEntity getGame(@PathVariable String gameName) {
+        try {
+            Game game = MarsRoverModel.getGame(gameName);
+            return ResponseEntity.ok(game);
+        } catch (APIException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+        }
+    }
+
+    @PostMapping("/api/game/{gameName}/player/{playerName}")
+    public ResponseEntity createPlayer(@PathVariable String gameName, @PathVariable String playerName) {
+        try {
+            MarsRoverImpl rover = MarsRoverModel.createRover(gameName, playerName);
             return ResponseEntity.ok(rover);
+        } catch (APIException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+        }
     }
 
-    @PatchMapping("/api/player/{playerName}/{command}")
-    public ResponseEntity command(@PathVariable String playerName, @PathVariable String command) {
-        if (command.equals("shot")) {
+    @RequestMapping("/api/game/{gameName}/player/{playerName}")
+    public ResponseEntity getPlayer(@PathVariable String gameName, @PathVariable String playerName) {
+        try {
+            Game game = MarsRoverModel.getGame(gameName);
+            MarsRoverImpl rover = MarsRoverModel.getRover(game, playerName);
+            return ResponseEntity.ok(rover);
+        } catch (APIException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+        }
+    }
 
-        } else if (command.equals("moveUp")) {
-
-        } else if (command.equals("moveDown")) {
-
-        } else if (command.equals("moveLeft")) {
-
-        } else if (command.equals("moveRight")) {
-
+    @PatchMapping("/api/game/{gameName}/player/{playerName}/{command}")
+    public ResponseEntity command(@PathVariable String gameName, @PathVariable String playerName,
+                                  @PathVariable String command) {
+        try {
+            MarsRoverImpl rover = MarsRoverModel.moveRover(gameName, playerName, command);
+            return ResponseEntity.ok(rover);
+        } catch (APIException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
         }
     }
 }
