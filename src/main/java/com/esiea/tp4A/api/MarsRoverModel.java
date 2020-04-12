@@ -8,36 +8,46 @@ import java.util.HashMap;
 public interface MarsRoverModel {
     String FILE_NAME = "data.tmp";
 
-    static Game createGame(String gameName) throws IOException, ClassNotFoundException {
-        Game game = new Game(gameName);
-        writeInFile(game);
-        return game;
+    static Game createGame(String gameName) throws IOException, ClassNotFoundException, APIAlreadyExistsException {
+        try {
+            getGame(gameName);
+            throw new APIAlreadyExistsException("Game already exists.");
+        } catch (APINotFoundException e) {
+            Game game = new Game(gameName);
+            writeInFile(game);
+            return game;
+        }
     }
 
-    static Game getGame(String gameName) throws IOException, ClassNotFoundException, APIException {
+    static Game getGame(String gameName) throws IOException, ClassNotFoundException, APINotFoundException {
         HashMap<String, Game> games = readinFile();
         if (games.get(gameName) == null)
-            throw new APIException("Game not found.");
+            throw new APINotFoundException("Game not found.");
         else
             return games.get(gameName);
     }
 
-    static MarsRoverImpl createRover(String gameName, String playerName) throws IOException, ClassNotFoundException, APIException {
+    static MarsRoverImpl createRover(String gameName, String playerName) throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
         Game game = getGame(gameName);
-        MarsRoverImpl rover = game.generateRover(playerName);
-        writeInFile(game);
-        return rover;
+        try {
+            getRover(game, playerName);
+            throw new APIAlreadyExistsException("Player already exists.");
+        } catch (APINotFoundException e)  {
+            MarsRoverImpl rover = game.generateRover(playerName);
+            writeInFile(game);
+            return rover;
+        }
     }
 
-    static MarsRoverImpl getRover(Game game, String roverName) throws APIException {
+    static MarsRoverImpl getRover(Game game, String roverName) throws APINotFoundException {
         MarsRoverImpl rover = game.getPlanetMap().getRoverByName(roverName);
         if (rover == null)
-            throw new APIException("Player not found.");
+            throw new APINotFoundException("Player not found.");
         else
             return rover;
     }
 
-    static MarsRoverImpl moveRover(String gameName, String roverName, String command) throws IOException, ClassNotFoundException, APIException {
+    static MarsRoverImpl moveRover(String gameName, String roverName, String command) throws IOException, ClassNotFoundException, APINotFoundException {
         Game game = getGame(gameName);
         MarsRoverImpl rover = getRover(game, roverName);
         rover.move(command);

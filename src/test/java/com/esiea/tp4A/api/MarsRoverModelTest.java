@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MarsRoverModelTest {
 
     @Test
-    void testCreateGame() throws IOException, ClassNotFoundException {
+    void testCreateGame() throws IOException, ClassNotFoundException, APIAlreadyExistsException {
         Game game = MarsRoverModel.createGame("testGameA");
         assertThat(game.getId()).isEqualTo("testGameA");
 
@@ -23,7 +23,7 @@ class MarsRoverModelTest {
     }
 
     @Test
-    void getGame() throws IOException, ClassNotFoundException, APIException {
+    void getGame() throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
         Game game = MarsRoverModel.createGame("testGameB");
 
         Game game2 = MarsRoverModel.getGame("testGameB");
@@ -35,8 +35,8 @@ class MarsRoverModelTest {
 
     @Test
     void getUnknownGame() {
-        APIException thrown = assertThrows(
-            APIException.class,
+        APINotFoundException thrown = assertThrows(
+            APINotFoundException.class,
             () -> MarsRoverModel.getGame("testGameJKWWLKNLKN"),
             "Expected getGame() to throw, but it didn't"
         );
@@ -44,7 +44,7 @@ class MarsRoverModelTest {
     }
 
     @Test
-    void createRover() throws IOException, ClassNotFoundException, APIException {
+    void createRover() throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
         MarsRoverModel.createGame("testGameC");
         MarsRoverModel.createRover("testGameC", "roverC");
 
@@ -53,9 +53,9 @@ class MarsRoverModelTest {
     }
 
     @Test
-    void getRover() throws IOException, ClassNotFoundException, APIException {
-        Game game = MarsRoverModel.createGame("testGameC");
-        MarsRoverImpl rover = MarsRoverModel.createRover("testGameC", "roverC");
+    void getRover() throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
+        Game game = MarsRoverModel.createGame("testGameF");
+        MarsRoverImpl rover = game.generateRover("roverC");
 
         MarsRoverImpl rover2 = MarsRoverModel.getRover(game, "roverC");
 
@@ -64,11 +64,11 @@ class MarsRoverModelTest {
     }
 
     @Test
-    void getUnknownRover() throws IOException, ClassNotFoundException, APIException {
-        Game game = MarsRoverModel.createGame("testGameC");
+    void getUnknownRover() throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
+        Game game = MarsRoverModel.createGame("testGameD");
 
-        APIException thrown = assertThrows(
-            APIException.class,
+        APINotFoundException thrown = assertThrows(
+            APINotFoundException.class,
             () -> MarsRoverModel.getRover(game, "roverUIUHCDINCSC"),
             "Expected getRover() to throw, but it didn't"
         );
@@ -76,8 +76,8 @@ class MarsRoverModelTest {
     }
 
     @Test
-    void moveRover() throws IOException, ClassNotFoundException, APIException {
-        Game game = MarsRoverModel.createGame("testGameC");
+    void moveRover() throws IOException, ClassNotFoundException, APINotFoundException, APIAlreadyExistsException {
+        Game game = MarsRoverModel.createGame("testGameE");
         MarsRoverImpl rover = MarsRoverModel.createRover("testGameD", "roverD");
 
         MarsRoverImpl rover2 = MarsRoverModel.moveRover("testGameD", "roverD", "f");

@@ -20,16 +20,12 @@ public class MarsRoverController {
     @PostMapping("/api/game/{gameName}")
     public ResponseEntity createGame(@PathVariable String gameName) throws IOException, ClassNotFoundException {
         try {
-            MarsRoverModel.getGame(gameName);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Game already exists.");
-        } catch (APIException e) {
-            try {
-                Game game = MarsRoverModel.createGame(gameName);
-                return ResponseEntity.ok(game);
-            }
-            catch (Exception e2) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
-            }
+            Game game = MarsRoverModel.createGame(gameName);
+            return ResponseEntity.ok(game);
+        } catch (APIAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
         }
     }
 
@@ -38,7 +34,7 @@ public class MarsRoverController {
         try {
             Game game = MarsRoverModel.getGame(gameName);
             return ResponseEntity.ok(game);
-        } catch (APIException e) {
+        } catch (APINotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
@@ -50,7 +46,9 @@ public class MarsRoverController {
         try {
             MarsRoverImpl rover = MarsRoverModel.createRover(gameName, playerName);
             return ResponseEntity.ok(rover);
-        } catch (APIException e) {
+        } catch (APIAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (APINotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
@@ -63,7 +61,7 @@ public class MarsRoverController {
             Game game = MarsRoverModel.getGame(gameName);
             MarsRoverImpl rover = MarsRoverModel.getRover(game, playerName);
             return ResponseEntity.ok(rover);
-        } catch (APIException e) {
+        } catch (APINotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
@@ -79,7 +77,7 @@ public class MarsRoverController {
         try {
             MarsRoverImpl rover = MarsRoverModel.moveRover(gameName, playerName, command);
             return ResponseEntity.ok(rover);
-        } catch (APIException e) {
+        } catch (APINotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");

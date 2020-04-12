@@ -45,6 +45,7 @@ public class MarsRoverControllerTest {
 
         // Check raises Bad Request
         this.mockMvc.perform(post("/api/game/testGame2"))
+            .andExpect(status().isConflict())
             .andExpect(content().string(containsString("Game already exists.")));
     }
 
@@ -79,10 +80,30 @@ public class MarsRoverControllerTest {
             .andExpect(jsonPath("id", Matchers.is("testGame5")));
 
         // Then create player
-        this.mockMvc.perform(post("/api/game/testGame5/player/testPlayer"))
+        this.mockMvc.perform(post("/api/game/testGame5/player/testPlayer1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer1")));
+    }
+
+    @Test
+    public void testCreatePlayerTwice() throws Exception {
+        // Create game
+        this.mockMvc.perform(post("/api/game/testGame55"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("id", Matchers.is("testGame55")));
+
+        // Then create player
+        this.mockMvc.perform(post("/api/game/testGame55/player/testPlayer2"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json"))
+            .andExpect(jsonPath("name", Matchers.is("testPlayer2")));
+
+        // Create twice
+        this.mockMvc.perform(post("/api/game/testGame55/player/testPlayer2"))
+            .andExpect(status().isConflict())
+            .andExpect(content().string(containsString("Player already exists.")));
     }
 
     @Test
@@ -94,16 +115,16 @@ public class MarsRoverControllerTest {
             .andExpect(jsonPath("id", Matchers.is("testGame6")));
 
         // Then create player
-        this.mockMvc.perform(post("/api/game/testGame6/player/testPlayer"))
+        this.mockMvc.perform(post("/api/game/testGame6/player/testPlayer3"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer3")));
 
         // Then Get Player
-        this.mockMvc.perform(get("/api/game/testGame6/player/testPlayer"))
+        this.mockMvc.perform(get("/api/game/testGame6/player/testPlayer3"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer3")));
     }
 
     @Test
@@ -115,6 +136,7 @@ public class MarsRoverControllerTest {
             .andExpect(jsonPath("id", Matchers.is("testGame7")));
 
         this.mockMvc.perform(get("/api/game/testGame7/player/testUnknownPlayer"))
+            .andExpect(status().isNotFound())
             .andExpect(content().string(containsString("Player not found.")));
     }
 
@@ -127,22 +149,22 @@ public class MarsRoverControllerTest {
             .andExpect(jsonPath("id", Matchers.is("testGame8")));
 
         // Then create player
-        this.mockMvc.perform(post("/api/game/testGame8/player/testPlayer"))
+        this.mockMvc.perform(post("/api/game/testGame8/player/testPlayer4"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer4")));
 
         // Then Get Player
-        this.mockMvc.perform(get("/api/game/testGame8/player/testPlayer"))
+        this.mockMvc.perform(get("/api/game/testGame8/player/testPlayer4"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer4")));
 
         // Then Patch Player
-        this.mockMvc.perform(patch("/api/game/testGame8/player/testPlayer/s"))
+        this.mockMvc.perform(patch("/api/game/testGame8/player/testPlayer4/s"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer4")));
     }
 
     @Test
@@ -153,14 +175,9 @@ public class MarsRoverControllerTest {
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("id", Matchers.is("testGame9")));
 
-        // Then create player
-        this.mockMvc.perform(post("/api/game/testGame9/player/testPlayer"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
-
         // Then Patch Player
         this.mockMvc.perform(patch("/api/game/testGame9/player/testUnknownPlayer/s"))
+            .andExpect(status().isNotFound())
             .andExpect(content().string(containsString("Player not found.")));
     }
 
@@ -173,13 +190,13 @@ public class MarsRoverControllerTest {
             .andExpect(jsonPath("id", Matchers.is("testGame10")));
 
         // Then create player
-        this.mockMvc.perform(post("/api/game/testGame10/player/testPlayer"))
+        this.mockMvc.perform(post("/api/game/testGame10/player/testPlayer5"))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("name", Matchers.is("testPlayer")));
+            .andExpect(jsonPath("name", Matchers.is("testPlayer5")));
 
         // Then Patch Player
-        this.mockMvc.perform(patch("/api/game/testGame10/player/testPlayer/wrong"))
+        this.mockMvc.perform(patch("/api/game/testGame10/player/testPlayer5/wrong"))
             .andExpect(status().isBadRequest())
             .andExpect(content().string(containsString("Wrong command given.")));
     }
