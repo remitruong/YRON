@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 public class MarsRoverController {
 
@@ -16,12 +18,18 @@ public class MarsRoverController {
     }
 
     @PostMapping("/api/game/{gameName}")
-    public ResponseEntity createGame(@PathVariable String gameName) {
+    public ResponseEntity createGame(@PathVariable String gameName) throws IOException, ClassNotFoundException {
         try {
-            Game game = MarsRoverModel.createGame(gameName);
-            return ResponseEntity.ok(game);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+            MarsRoverModel.getGame(gameName);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Game already exists.");
+        } catch (APIException e) {
+            try {
+                Game game = MarsRoverModel.createGame(gameName);
+                return ResponseEntity.ok(game);
+            }
+            catch (Exception e2) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error.");
+            }
         }
     }
 
@@ -65,6 +73,9 @@ public class MarsRoverController {
     @PatchMapping("/api/game/{gameName}/player/{playerName}/{command}")
     public ResponseEntity command(@PathVariable String gameName, @PathVariable String playerName,
                                   @PathVariable String command) {
+        if (!command.matches("[fblrs]")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong command given.");
+        }
         try {
             MarsRoverImpl rover = MarsRoverModel.moveRover(gameName, playerName, command);
             return ResponseEntity.ok(rover);
