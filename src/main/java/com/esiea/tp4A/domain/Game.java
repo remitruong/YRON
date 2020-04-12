@@ -1,7 +1,9 @@
 package com.esiea.tp4A.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Game implements Serializable {
     private String id;
@@ -24,14 +26,17 @@ public class Game implements Serializable {
         return id;
     }
 
+    @JsonIgnore
     public int getMapSize() {
         return mapSize;
     }
 
+    @JsonProperty("map")
     public PlanetMapImpl getPlanetMap() {
         return this.map;
     }
 
+    @JsonIgnore
     public int getLaserRange() {
         return this.laserRange;
     }
