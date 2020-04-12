@@ -22,7 +22,7 @@ class UtilsTest {
         int rand = utils.randomIntForPosition(50);
         assertThat(rand)
             .as("random int between -24 and 25")
-            .isBetween(-24, 25);
+            .isBetween(-25, 25);
     }
 
     @Test
@@ -40,11 +40,11 @@ class UtilsTest {
 
         assertThat(rand.getX())
             .as("Random X on map")
-            .isBetween(-24, 25);
+            .isBetween(-25, 25);
 
         assertThat(rand.getY())
                 .as("Random Y on map")
-                .isBetween(-24, 25);
+                .isBetween(-25, 25);
     }
 
     @Test
