@@ -53,6 +53,15 @@ class MarsRoverTest {
     }
 
     @Test
+    void create_random_rover() {
+        MarsRoverImpl bot = new MarsRoverImpl();
+
+        assertThat(bot.isAlive())
+            .as("Test if a new random Rover is alive at creation")
+            .isTrue();
+    }
+
+    @Test
     void rover_kill() {
         MarsRoverImpl rover = new MarsRoverImpl(Position.of(0, 0, Direction.NORTH),"Justin NOUVOROVEUR", planetMap, 10);
         rover.kill();

@@ -6,6 +6,15 @@ public class MarsRoverImpl implements MarsRover {
     private boolean alive; // not final : Alive is changing during the game
     private int laserRange; // not final : LaserRange is changing during the game
     private final String name;
+    private final Utils utils = new Utils();
+
+    public MarsRoverImpl() {
+        this.map = new PlanetMapImpl();
+        this.name = "Bot";
+        this.initialize(utils.randomPosition(this.map.getSizeOfTheMap(), this.map));
+        this.laserRange = utils.generateRandLaserRange(this.map.getSizeOfTheMap());
+        this.alive = true;
+    }
 
     public MarsRoverImpl(Position position, String name, PlanetMapImpl planetMap, int laserRange) {
         this.map = planetMap;

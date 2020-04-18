@@ -94,9 +94,11 @@ public class PlanetMapImpl implements PlanetMap {
     }
 
     public boolean isObstaclePositionOnMap(Position position) {
-        for (Position p : this.obstaclePositions) {
-            if (p.getX() == position.getX() && p.getY() == position.getY()) {
-                return true;
+        if(this.obstaclePositions != null) {
+            for (Position p : this.obstaclePositions) {
+                if (p.getX() == position.getX() && p.getY() == position.getY()) {
+                    return true;
+                }
             }
         }
         return false;
