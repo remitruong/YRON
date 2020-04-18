@@ -1,8 +1,12 @@
 package com.esiea.tp4A.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.*;
 
-public class PlanetMapImpl implements PlanetMap {
+public class PlanetMapImpl implements PlanetMap, Serializable {
     private Set<Position> obstaclePositions;
     private HashMap<String, MarsRoverImpl> roverList;
     private int sizeOfTheMap;
@@ -58,8 +62,14 @@ public class PlanetMapImpl implements PlanetMap {
         return rover;
     }
 
+    @JsonProperty("players")
     public HashMap getRoverList() {
         return this.roverList;
+    }
+
+    @JsonProperty("obstacles")
+    public Set<Position> getObstaclePositions() {
+        return obstaclePositions;
     }
 
     @Override
@@ -119,6 +129,7 @@ public class PlanetMapImpl implements PlanetMap {
         return this.roverList.get(name);
     }
 
+    @JsonIgnore
     public int getSizeOfTheMap() {
         return this.sizeOfTheMap;
     }

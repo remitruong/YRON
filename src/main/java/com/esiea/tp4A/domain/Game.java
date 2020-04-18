@@ -1,17 +1,19 @@
 package com.esiea.tp4A.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Game implements Serializable {
     private String id;
     private PlanetMapImpl map;
     private int mapSize;
     private int laserRange;
-    private final Utils utils = new Utils();
 
     public Game(String id){
         this.id = id;
+        Utils utils = new Utils();
         this.mapSize = utils.generateRandMapSize();
         this.map = (PlanetMapImpl) new PlanetMapImpl().initialize(this.mapSize);
         this.map.generateObstacle(this.mapSize);
@@ -23,14 +25,17 @@ public class Game implements Serializable {
         return id;
     }
 
+    @JsonIgnore
     public int getMapSize() {
         return mapSize;
     }
 
+    @JsonProperty("map")
     public PlanetMapImpl getPlanetMap() {
         return this.map;
     }
 
+    @JsonIgnore
     public int getLaserRange() {
         return this.laserRange;
     }

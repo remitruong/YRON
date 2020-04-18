@@ -1,8 +1,9 @@
 package com.esiea.tp4A.domain;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Utils {
+public class Utils implements Serializable {
     public int randomInt(int max) {
         Random rand = new Random();
         return rand.nextInt(max);
