@@ -38,7 +38,7 @@ public class Utils {
         }
         return dir;
     }
-  
+    
     public Position randomPosition(int size, PlanetMapImpl map){
         int randomX = randomIntForPosition(size);
         int randomY = randomIntForPosition(size);
